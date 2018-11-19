@@ -26,6 +26,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
+        $this->layout = 'blank';
         return $this->render('login');
     }
 

@@ -18,7 +18,8 @@ AppAsset::register($this);
   <?php $this->registerCsrfMetaTags() ?>
   <title><?= Html::encode($this->title) ?></title>
   <?php $this->head() ?>
-  <link href="https://appstack.bootlab.io/css/app.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/solid.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/fontawesome.min.css" rel="stylesheet">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -43,7 +44,7 @@ AppAsset::register($this);
               class="sidebar-link"
               :class="{'collapsed':item.open==false}"
               @click="openChild(item)">
-              
+              <i v-if="item.icon!=''" :class="item.icon"></i>
               <span class="align-middle">{{item.label}}</span>
               <span class="sidebar-badge badge badge-primary" v-if="item.badge!=''">{{item.badge}}</span>
             </a>
@@ -54,6 +55,7 @@ AppAsset::register($this);
               v-if="typeof item.child=='object'">
               <li class="sidebar-item" :class="{'active':child.href==window.location.pathname}" v-for="child in item.child">
                 <a class="sidebar-link" :href="child.href!='#' ? child.href : 'javascript:void(0)'">
+                  <i v-if="child.icon!=''" :class="child.icon"></i>
                   {{child.label}}
                   <span class="sidebar-badge badge badge-primary" v-if="child.badge!=''">{{child.badge}}</span>
                 </a>
