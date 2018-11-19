@@ -80,11 +80,11 @@ AppAsset::register($this);
         <div class="navbar-collapse collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link" href="javascript:void(0)">
-                <span class="d-none d-sm-inline-block">
-                  <span class="text-dark">Sign out</span>
-                </span>
-              </a>
+              <?=Html::beginForm(['/site/logout'], 'post')?>
+              <?=Html::submitButton('Sign out (' . Yii::$app->user->identity->username . ')', [
+                'class' => 'btn btn-link logout text-dark'
+              ])?>
+              <?=Html::endForm()?>
             </li>
           </ul>
         </div>

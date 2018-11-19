@@ -206,5 +206,6 @@ body {
 .main {
 	width: 100%
 }
-
-/* Login */
+.logout {
+	font-size: 12px;
+}

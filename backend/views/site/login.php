@@ -20,22 +20,36 @@ $this->title = 'Login';
           <div class="card">
             <div class="card-body">
               <div class="m-sm-4">
-                <div class="text-center">
+                <div class="text-center"></div>
+
+                <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                  <div class="form-group">
+                    <?=$form->field($model, 'username')->textInput([
+                      'autofocus'   => true,
+                      'placeholder' => 'Enter your email',
+                      'class'       => 'form-control form-control-lg',
+                      'value'       => 'admin'
+                    ])?>
+                  </div>
+
+                  <div class="form-group">
+                    <?=$form->field($model, 'password')->passwordInput([
+                      'class'       => 'form-control form-control-lg',
+                      'placeholder' => 'Enter your password',
+                      'value'       => 'admin123'
+                    ]) ?>
+                  </div>
                   
-                </div>
-                <form>
-                  <div class="form-group">
-                    <label>Email</label>
-                    <input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email" />
-                  </div>
-                  <div class="form-group">
-                    <label>Password</label>
-                    <input class="form-control form-control-lg" type="password" name="password" placeholder="Enter your password" />
-                  </div>
+                  <?=$form->field($model, 'rememberMe')->checkbox()?>
+                  
                   <div class="text-center mt-3">
-                    <a href="index.html" class="btn btn-lg btn-success">Sign in</a>
+                    <?= Html::submitButton('Sign in', [
+                      'class' => 'btn btn-lg btn-success',
+                      'name'  => 'login-button'
+                    ]) ?>
                   </div>
-                </form>
+                <?php ActiveForm::end(); ?>
+
               </div>
             </div>
           </div>
