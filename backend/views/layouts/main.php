@@ -28,7 +28,7 @@ AppAsset::register($this);
   <div class="d-flex">
     <nav class="sidebar">
       <div class="sidebar-content">
-        <a class="sidebar-brand" href="index.html">
+        <a class="sidebar-brand" href="/">
           <span class="align-middle">AppStack</span>
         </a>
 
