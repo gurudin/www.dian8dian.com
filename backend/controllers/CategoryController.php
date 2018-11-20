@@ -13,9 +13,11 @@ class CategoryController extends BaseController
     public function actionList()
     {
         $list = Category::getAll();
+        $category_list = Category::getCategoryByParentId(0);
         
         return $this->render('list', [
             'list' => $list,
+            'category_list' => $category_list,
         ]);
     }
 

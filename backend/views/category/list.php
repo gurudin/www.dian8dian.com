@@ -12,6 +12,31 @@ $this->title = 'Menu List';
     </h4>
     <hr>
 
+    <form class="form-inline">
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Category</div>
+        </div>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          v-model="search.categoryKey"
+          placeholder="Enter category">
+      </div>
+
+      &nbsp;
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Parent</div>
+        </div>
+        <select class="custom-select" v-model="search.parentId">
+          <option value="" selected>Select parent name</option>
+          <option value="-1">All Parent</option>
+          <option v-for="item in init.categoryList" :value="item.id">{{item.category}}</option>
+        </select>
+      </div>
+    </form>
+
     <table class="table table-hover">
       <thead>
         <tr>
@@ -23,7 +48,7 @@ $this->title = 'Menu List';
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item,inx) in init.list">
+        <tr v-for="(item,inx) in listData">
           <th scope="row">{{inx+1}}</th>
           <td>{{item.category}}</td>
           <td>{{retParentName(item.parent_id)}}</td>
@@ -47,7 +72,7 @@ $this->title = 'Menu List';
     
     <div>
       <div class="float-right">
-        {{init.list.length}} entries
+        {{listData.length}} entries
       </div>
     </div>
   </div>
@@ -61,11 +86,42 @@ const vm = new Vue({
     return {
       init: {
         list: <?=Json::encode($list, true)?>,
+        categoryList: <?=Json::encode($category_list, true)?>,
+      },
+      search: {
+        categoryKey: '',
+        parentId: '',
       },
     };
   },
   computed: {
-    
+    listData() {
+      var key = this.search.categoryKey ? this.search.categoryKey.toLowerCase() : '';
+      var parentId = this.search.parentId;
+      var data = this.init.list;
+      
+      data = data.filter(row =>{
+        let tmpText = row.category + ' ' + row.search_text;
+        let retParent = true;
+        let retKey = true;
+
+        if (parentId != '') {
+          if (parentId == -1) {
+            retParent = row.parent_id == 0;
+          } else {
+            retParent = row.parent_id == parentId;
+          }
+        }
+        
+        if (key != '') {
+          retKey = tmpText.toLowerCase().indexOf(key) > -1;
+        }
+        
+        return retParent && retKey;
+      });
+
+      return data;
+    }
   },
   methods: {
     retParentName(parent_id) {
@@ -90,7 +146,7 @@ const vm = new Vue({
       if (!confirm('Are you sure to delete this item?')) {
         return false;
       }
-      
+
       var _this = this;
       var $btn  = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
       $.post("<?=URL::to(['/category/ajax-remove'])?>", {
