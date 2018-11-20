@@ -130,6 +130,10 @@ const nav = new Vue({
   }
 });
 </script>
+
+<?php if (isset($this->blocks['js'])): ?>
+  <?= $this->blocks['js'] ?>
+<?php endif; ?>
 </body>
 </html>
 <?php $this->endPage() ?>
