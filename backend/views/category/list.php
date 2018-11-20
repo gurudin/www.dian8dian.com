@@ -87,6 +87,10 @@ const vm = new Vue({
       window.location = url;
     },
     remove(event, id, inx) {
+      if (!confirm('Are you sure to delete this item?')) {
+        return false;
+      }
+      
       var _this = this;
       var $btn  = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
       $.post("<?=URL::to(['/category/ajax-remove'])?>", {
