@@ -57,7 +57,7 @@ class Category extends \yii\db\ActiveRecord
     {
         $m = [];
         foreach ($this->attributeLabels() as $k => $v) {
-            $m[$k] = '';
+            $m[$k] = $k == 'parent_id' ? 0 : '';
         }
         
         return $m;
@@ -69,5 +69,21 @@ class Category extends \yii\db\ActiveRecord
     public static function getCategoryByParentId(int $parent_id = 0)
     {
         return static::find()->where(['parent_id' => $parent_id])->all();
+    }
+
+    /**
+     * get All
+     */
+    public static function getAll()
+    {
+        return static::find()->orderBy('id desc')->all();
+    }
+
+    /**
+     * Get category by id
+     */
+    public static function getCategoryById(int $id)
+    {
+        return static::find()->where(['id' => $id])->one();
     }
 }

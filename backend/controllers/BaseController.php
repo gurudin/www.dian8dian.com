@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 
 class BaseController extends \yii\web\Controller
 {
+    protected $args = [];
+
     /**
      * {@inheritdoc}
      */
@@ -34,5 +36,22 @@ class BaseController extends \yii\web\Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function beforeAction($action)
+    {
+        if (strstr($action->id, 'ajax')) {
+            if (!Yii::$app->request->isAjax) {
+                return;
+            }
+            
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $this->args = Yii::$app->request->post();
+        }
+        
+        return parent::beforeAction($action);
     }
 }

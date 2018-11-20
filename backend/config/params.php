@@ -9,7 +9,8 @@ return [
             'badge' => '',
             'open'  => false,
             'child' => [
-                ['label' => 'Create', 'href' => '/category/create'],
+                ['label' => 'List', 'href' => '/category/list'],
+                ['label' => 'Create & Update', 'href' => '/category/save'],
                 ['label' => 'Set navigation', 'href' => '/category/set-navigation'],
             ]
         ],
