@@ -11,3 +11,11 @@ $this->title = 'Welcome ' . Yii::$app->user->identity->username;
   <hr class="my-4">
   <p><i class="fas fa-exclamation-triangle"></i> We log every actions and operations, please use with care.</p>
 </div>
+
+<?php $this->beginBlock('js'); ?>
+<script>
+const vm = new Vue({
+  el: '#app',
+});
+</script>
+<?php $this->endBlock(); ?>

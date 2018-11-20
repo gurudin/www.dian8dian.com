@@ -1,13 +1,15 @@
 <?php
 use yii\helpers\Json;
+use common\widgets\Alert;
 
 $this->title = 'Create Menu';
 ?>
 
-<div class="card" id="vm">
+<div class="card">
   <div class="card-body">
     <h4 class="card-title">Create Menu <small class="text-muted">category/tags</small></h4>
     <hr>
+
     <form>
       <div class="form-group col-4">
         <label>Parent category</label>
@@ -27,7 +29,7 @@ $this->title = 'Create Menu';
       </div>
 
       <div class="form-group col-4">
-        <button type="button" class="btn btn-success"><i class="fas fa-paper-plane"></i> Save</button>
+        <button type="button" class="btn btn-success" @click="save"><i class="fas fa-paper-plane"></i> Save</button>
       </div>
     </form>
   </div>
@@ -36,7 +38,7 @@ $this->title = 'Create Menu';
 <?php $this->beginBlock('js'); ?>
 <script>
 const vm = new Vue({
-  el: '#vm',
+  el: '#app',
   data() {
     return {
       init: {
@@ -44,8 +46,17 @@ const vm = new Vue({
       },
     };
   },
+  methods: {
+    save(event) {
+      var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
+      setTimeout(() => {
+        
+        $btn.loading('reset');
+      }, 1000);
+    }
+  },
   created() {
-    console.log(this.init.m);
+    // console.log(this.init.m);
   }
 });
 </script>

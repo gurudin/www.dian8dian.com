@@ -56,7 +56,7 @@ class Category extends \yii\db\ActiveRecord
     public function emptyModel()
     {
         $m = [];
-        foreach ($this->attributeLabels() as $k=>$v) {
+        foreach ($this->attributeLabels() as $k => $v) {
             $m[$k] = '';
         }
         

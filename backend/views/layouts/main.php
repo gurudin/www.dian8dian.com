@@ -32,7 +32,7 @@ AppAsset::register($this);
           <span class="align-middle">AppStack</span>
         </a>
 
-        <ul class="sidebar-nav" id="nav">
+        <ul class="sidebar-nav" id="nav" v-cloak>
           <li class="sidebar-header">
             Main
           </li>
@@ -53,7 +53,7 @@ AppAsset::register($this);
               class="sidebar-dropdown list-unstyled collapse"
               :class="{'show': item.open==true}"
               v-if="typeof item.child=='object'">
-              <li class="sidebar-item" :class="{'active':child.href==window.location.pathname}" v-for="child in item.child">
+              <li class="sidebar-item" :class="{'active':child.href==currentUri}" v-for="child in item.child">
                 <a class="sidebar-link" :href="child.href!='#' ? child.href : 'javascript:void(0)'">
                   <i v-if="child.icon!=''" :class="child.icon"></i>
                   {{child.label}}
@@ -90,7 +90,7 @@ AppAsset::register($this);
         </div>
       </nav>
 
-      <main class="content">
+      <main class="content" id="app" v-cloak>
         <div class="container-fluid p-0">
           <?= $content ?>
         </div>
@@ -100,40 +100,17 @@ AppAsset::register($this);
 </div>
 
 <?php $this->endBody() ?>
-<script>
-const nav = new Vue({
-  el: '#nav',
-  data() {
-    return {
-      navItem: <?=json_encode(Yii::$app->params['nav'])?>
-    };
-  },
-  methods: {
-    openChild(item) {
-      if (typeof item.open == 'undefined') {
-        item.open = true;
-      } else {
-        item.open = !item.open;
-      }
-    }
-  },
-  created() {
-    this.navItem.forEach(row => {
-      if (typeof row.child=='object') {
-        row.child.forEach(child => {
-          if (child.href == window.location.pathname) {
-            row.open = true;
-          }
-        });
-      }
-    });
-  }
-});
-</script>
 
 <?php if (isset($this->blocks['js'])): ?>
   <?= $this->blocks['js'] ?>
 <?php endif; ?>
+
+<script>
+$(function(){
+  initMenu(<?=json_encode(Yii::$app->params['nav'])?>);
+});
+</script>
+
 </body>
 </html>
 <?php $this->endPage() ?>
