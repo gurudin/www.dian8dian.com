@@ -14,6 +14,16 @@ return [
                 ['label' => 'Set navigation', 'href' => '/category/set-navigation'],
             ]
         ],
+        [
+            'icon'  => 'fas fa-newspaper',
+            'label' => 'Article',
+            'href'  => '#',
+            'open'  => true,
+            'child' => [
+                ['label' => 'All acticle', 'href' => '/article/index'],
+                ['label' => 'Create & Update', 'href' => '/article/save'],
+            ]
+        ],
         ["icon" => "fas fa-columns", "label" => "Pages", "href" => "#", "badge" => "", "open" => false, "child" => [
             ["icon" => "fas fa-sign-in-alt", "label" => "Sign In", "href" => "/site/login", "badge" => "11"],
             ["icon" => "", "label" => "Blank Page", "href" => "#", "badge" => ""],
