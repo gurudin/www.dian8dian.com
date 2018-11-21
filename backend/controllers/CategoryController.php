@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Category;
 use Overtrue\Pinyin\Pinyin;
+use yii\web\UploadedFile;
 
 class CategoryController extends BaseController
 {
@@ -92,5 +93,22 @@ class CategoryController extends BaseController
         return Category::deleteAll(['id' => $this->args['id']])
             ? ['status' => true, 'msg' => 'success']
             : ['status' => false, 'msg' => 'Failed to delete.'];
+    }
+
+    public function actionAjaxUpload()
+    {
+        $file = UploadedFile::getInstanceByName('file');
+        $dir  = 'resource/' . date('Ym');
+        $path = $dir . '/' . $this->randstr(5) . date('YmdHis') . '.' . $file->getExtension();
+
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+
+        if ($file->saveAs(Yii::getAlias("@webroot") . '/' . $path) === true) {
+            return ['status' => true, 'path' => '/' . $path, 'data' => $file];
+        } else {
+            return ['status' => false, 'msg' => 'Failed to upload.'];
+        }
     }
 }

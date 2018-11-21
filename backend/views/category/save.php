@@ -41,6 +41,13 @@ $this->title = 'Menu';
           <i class="fas fa-paper-plane"></i> Save
         </button>
       </div>
+
+      <vue-upload-picker
+       v-model="init.m.pic"
+       post-uri="/category/ajax-upload"
+       title="Upload file"
+       icon='<i class="fas fa-file-import"></i>'
+       class-name="btn btn-primary btn-sm"></vue-upload-picker>
     </form>
   </div>
 </div>
@@ -83,6 +90,9 @@ const vm = new Vue({
         }
       });
     },
+  },
+  created() {
+    // this.init.m.pic = 'https://d9iyrkd8y2zpr.cloudfront.net/webapi-assets-dev/resources/gifts/201811/cvt5apedmx-1541732215.png1sdddsss';
   }
 });
 </script>

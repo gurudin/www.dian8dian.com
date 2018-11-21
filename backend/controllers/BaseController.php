@@ -54,4 +54,24 @@ class BaseController extends \yii\web\Controller
         
         return parent::beforeAction($action);
     }
+
+    /**
+     * Rand string
+     *
+     * @param int $length
+     * @param string $case lc(小写)|uc(大写)
+     *
+     * @return string
+     */
+    protected function randstr(int $length = 16, string $case = 'uc')
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return $case == 'uc' ? strtoupper($randomString) : strtolower($randomString);
+    }
 }
