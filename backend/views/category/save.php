@@ -32,6 +32,16 @@ $this->title = 'Menu';
       </div>
 
       <div class="form-group col-8">
+        <label>Icon</label>
+        <vue-upload-picker
+          v-model="init.m.pic"
+          post-uri="/category/ajax-upload"
+          title="Upload category icon"
+          icon='<i class="fas fa-file-import"></i>'
+          class-name="btn btn-info btn-sm"></vue-upload-picker>
+      </div>
+
+      <div class="form-group col-8">
         <label>Remark <small>*</small></label>
         <textarea class="form-control" rows="3" v-model.trim="init.m.remark" placeholder="Enter remark"></textarea>
       </div>
@@ -41,13 +51,6 @@ $this->title = 'Menu';
           <i class="fas fa-paper-plane"></i> Save
         </button>
       </div>
-
-      <vue-upload-picker
-       v-model="init.m.pic"
-       post-uri="/category/ajax-upload"
-       title="Upload file"
-       icon='<i class="fas fa-file-import"></i>'
-       class-name="btn btn-primary btn-sm"></vue-upload-picker>
     </form>
   </div>
 </div>

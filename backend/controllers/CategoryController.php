@@ -4,7 +4,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Category;
 use Overtrue\Pinyin\Pinyin;
-use yii\web\UploadedFile;
 
 class CategoryController extends BaseController
 {
@@ -57,6 +56,7 @@ class CategoryController extends BaseController
             $m->parent_id   = $data['parent_id'];
             $m->category    = $data['category'];
             $m->remark      = $data['remark'];
+            $m->pic         = $data['pic'];
             $m->search_text = $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']);
 
             $result = $m->save();
@@ -66,6 +66,7 @@ class CategoryController extends BaseController
                 'parent_id'   => $data['parent_id'],
                 'category'    => $data['category'],
                 'remark'      => $data['remark'],
+                'pic'         => $data['pic'],
                 'search_text' => $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']),
             ], [
                 'id' => $data['id']
@@ -97,18 +98,6 @@ class CategoryController extends BaseController
 
     public function actionAjaxUpload()
     {
-        $file = UploadedFile::getInstanceByName('file');
-        $dir  = 'resource/' . date('Ym');
-        $path = $dir . '/' . $this->randstr(5) . date('YmdHis') . '.' . $file->getExtension();
-
-        if (!is_dir($dir)) {
-            mkdir($dir, 0775, true);
-        }
-
-        if ($file->saveAs(Yii::getAlias("@webroot") . '/' . $path) === true) {
-            return ['status' => true, 'path' => '/' . $path, 'data' => $file];
-        } else {
-            return ['status' => false, 'msg' => 'Failed to upload.'];
-        }
+        return $this->upload();
     }
 }

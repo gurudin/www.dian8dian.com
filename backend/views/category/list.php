@@ -42,6 +42,7 @@ $this->title = 'Menu List';
         <tr>
           <th scope="col">#</th>
           <th scope="col">Category</th>
+          <th scope="col">Icon</th>
           <th scope="col">Parent Name</th>
           <th scope="col">Search Text</th>
           <th>Action</th>
@@ -51,6 +52,11 @@ $this->title = 'Menu List';
         <tr v-for="(item,inx) in listData">
           <th scope="row">{{inx+1}}</th>
           <td>{{item.category}}</td>
+          <td>
+            <a :href="item.pic" target="_blank" v-if="item.pic != ''">
+              <img :src="item.pic" class="rounded" width="35">
+            </a>
+          </td>
           <td>{{retParentName(item.parent_id)}}</td>
           <td>{{item.search_text}}</td>
           <td>

@@ -1,3 +1,14 @@
+/**
+ * Vue upload picker.
+ * 
+ * template:
+ * <vue-upload-picker
+ *  v-model="init.m.pic"
+ *  post-uri="/category/ajax-upload"
+ *  title="Upload file"
+ *  icon='<i class="fas fa-file-import"></i>'
+ *  class-name="btn btn-primary btn-sm"></vue-upload-picker>
+ */
 Vue.component('vue-upload-picker', {
   template: '\
     <div class="vue-upload-picker">\
@@ -8,7 +19,7 @@ Vue.component('vue-upload-picker', {
           <img v-if="isImages" :src="isImages==true ? valueData : \'\'" class="rounded" style="max-width: 200px;">\
           <span v-if="!isImages">{{valueData}}</span>\
         </a>\
-        <button type="button" v-if="valueData!=\'\'" :disabled="isDisabled" class="close bg-white" aria-label="Close" style="position: absolute; top: 0; right: 0;">\
+        <button type="button" v-if="valueData!=\'\'" @click="close" :disabled="isDisabled" class="close bg-white" aria-label="Close" style="position: absolute; top: 0; right: 0;">\
           <span aria-hidden="true">&times;</span>\
         </button>\
       </p>\
@@ -110,6 +121,9 @@ Vue.component('vue-upload-picker', {
         alert("Upload error");
         console.log(res);
       });
+    },
+    close() {
+      this.$emit('input', '');
     }
   }
 });
