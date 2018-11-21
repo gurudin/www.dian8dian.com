@@ -2,6 +2,8 @@
 use yii\helpers\Json;
 use yii\helpers\Url;
 
+\backend\assets\AppAsset::addScript($this, ['vue-upload-picker.js']);
+
 $this->title = 'Menu';
 ?>
 

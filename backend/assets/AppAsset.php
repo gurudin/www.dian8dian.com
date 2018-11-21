@@ -26,21 +26,15 @@ class AppAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
     ];
 
-    //定义按需加载JS方法，注意加载顺序在最后
-    // public static function addCustomVueExtention($view) {
-    //     $view->registerAssetBundle('backend\assets\CustomVueExtentionAsset', View::POS_HEAD);
-    // }
-    // public $basePath = '@webroot';
-    // public $baseUrl = '@web';
-    
-    // public $css = [
-    //     'css/site.css',
-    // ];
-    // public $js = [
-    //     'js/vue.min.js',
-    // ];
-    // public $depends = [
-    //     'yii\web\YiiAsset',
-    //     'yii\bootstrap\BootstrapAsset',
-    // ];
+    public static function addScript($view, $jsSet = []) {
+        foreach ($jsSet as $file) {
+            $view->registerJsFile(
+                '@web/js/' . $file . '?v=' . @filemtime(\Yii::getAlias('@webroot/js/' . $file)),
+                [
+                    'depends' => 'backend\assets\BaseAsset',
+                    'position' => View::POS_HEAD,
+                ]
+            );
+        }
+    }
 }

@@ -45,6 +45,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'parent_id' => '父类ID',
             'category' => '类别名称',
+            'pic' => '类别图片',
             'remark' => '描述',
             'search_text' => '搜索拼音',
         ];
