@@ -50,6 +50,13 @@ $this->title = 'Article List';
         </tr>
       </tbody>
     </table>
+
+    <div>
+      <div class="float-left"><?=$result['page']->totalCount?> entries</div>
+      <div class="float-right">
+        <?= common\widgets\LinkPager::widget(['pagination' => $result['page']]); ?>
+      </div>
+    </div>
   </div>
 </div>
 
