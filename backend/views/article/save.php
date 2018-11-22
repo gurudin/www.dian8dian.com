@@ -5,6 +5,7 @@ use yii\helpers\Url;
 \backend\assets\AppAsset::addScript($this, ['vue-tags-input.min.js']);
 \backend\assets\AppAsset::addCss($this, ['vue-tags-input.css']);
 \backend\assets\AppAsset::addScript($this, ['tinymce/tinymce.min.js']);
+\backend\assets\AppAsset::addScript($this, ['vue-upload-picker.js']);
 
 $this->title = 'Article create & update';
 ?>
@@ -35,6 +36,16 @@ $this->title = 'Article create & update';
       <div class="form-group col-8">
         <label>Author <small>*</small></label>
         <input type="text" class="form-control" v-model.trim="init.m.author" placeholder="Enter author">
+      </div>
+
+      <div class="form-group col-8">
+        <label>Cover</label>
+        <vue-upload-picker
+          v-model="init.m.cover"
+          post-uri="/upload/ajax-upload"
+          title="Upload article cover"
+          icon='<i class="fas fa-file-import"></i>'
+          class-name="btn btn-info btn-sm"></vue-upload-picker>
       </div>
 
       <div class="form-group col-8">

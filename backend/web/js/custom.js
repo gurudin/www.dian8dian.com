@@ -92,3 +92,42 @@ function initMenu(obj) {
     }
   });
 })(jQuery);
+
+var date = {
+  format: function(format, timestamp) {
+    timestamp = timestamp.toString().length == 10 ? timestamp * 1000 : timestamp;
+    let date = new Date(timestamp);
+    let retDate = '';
+
+    for (let i = 0; i < format.length; i++) {
+      retDate += this.getFormat(format[i], date);
+    }
+
+    return retDate;
+  },
+  getFormat: function (str, date) {
+    if (str == 'Y') {
+      return date.getFullYear();
+    }
+    if (str == 'y') {
+      return date.getFullYear().toString().substring(2);
+    }
+    if (str == 'M') {
+      return date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    }
+    if (str == 'D' || str == 'd') {
+      return date.getDate();
+    }
+    if (str == 'H' || str == 'h') {
+      return date.getHours();
+    }
+    if (str == 'm') {
+      return date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    }
+    if (str == 'S' || str == 's') {
+      return date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+    }
+
+    return str;
+  }
+};

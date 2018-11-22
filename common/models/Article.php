@@ -40,7 +40,7 @@ class Article extends \yii\db\ActiveRecord
             [['fk_category_id', 'title', 'title_search', 'created_at'], 'required'],
             [['fk_category_id', 'created_at'], 'integer'],
             [['content'], 'string'],
-            [['title', 'title_search', 'remark', 'tags', 'source', 'demo'], 'string', 'max' => 255],
+            [['title', 'title_search', 'remark', 'tags', 'source', 'demo', 'cover'], 'string', 'max' => 255],
             [['author'], 'string', 'max' => 50],
             [['status'], 'integer', 'max' => 1],
         ];
@@ -56,6 +56,7 @@ class Article extends \yii\db\ActiveRecord
             'fk_category_id' => '类别外键',
             'title' => '标题',
             'title_search' => '标题搜索拼音',
+            'cover' => '封面图片',
             'remark' => '简介',
             'content' => '内容',
             'tags' => '标签',

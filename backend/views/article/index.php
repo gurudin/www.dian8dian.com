@@ -21,6 +21,7 @@ $this->title = 'Article List';
           <th scope="col">Tags</th>
           <th scope="col">Author</th>
           <th>Status</th>
+          <th>Created at</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -28,12 +29,13 @@ $this->title = 'Article List';
       <tbody>
         <tr v-for="(item,inx) in init.list">
           <th scope="row">{{item.id}}</th>
-          <th scope="row">{{item.title}}</th>
-          <th scope="row">{{getName(item.fk_category_id)}}</th>
-          <th scope="row">{{item.tags}}</th>
-          <th scope="row">{{item.author}}</th>
-          <th scope="row">{{item.status}}</th>
-          <th scope="row">
+          <td>{{item.title}}</td>
+          <td>{{getName(item.fk_category_id)}}</td>
+          <td>{{item.tags}}</td>
+          <td>{{item.author}}</td>
+          <td>{{item.status}}</td>
+          <td>{{date.format('Y/M/D H:m', item.created_at)}}</td>
+          <td>
             <button
               type="button"
               class="btn btn-warning btn-sm text-white"
@@ -44,7 +46,7 @@ $this->title = 'Article List';
               type="button"
               class="btn btn-danger btn-sm">
               <i class="fas fa-trash-alt"></i></button>
-          </th>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -53,6 +55,8 @@ $this->title = 'Article List';
 
 <?php $this->beginBlock('js'); ?>
 <script>
+
+Vue.prototype.date = date;
 const vm = new Vue({
   el: '#app',
   data() {

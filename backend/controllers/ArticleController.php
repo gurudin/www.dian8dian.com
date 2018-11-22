@@ -52,6 +52,7 @@ class ArticleController extends BaseController
             $m->fk_category_id = $data['fk_category_id'];
             $m->title          = $data['title'];
             $m->title_search   = $pinyin->permalink($data['title'], '') . ' ' . $pinyin->abbr($data['title']);
+            $m->cover          = $data['cover'] ? $data['cover'] : '';
             $m->remark         = $data['remark'];
             $m->content        = $data['content'];
             $m->tags           = $data['tags'] ? $data['tags'] : '';
@@ -68,6 +69,7 @@ class ArticleController extends BaseController
                 'fk_category_id' => $data['fk_category_id'],
                 'title'          => $data['title'],
                 'title_search'   => $pinyin->permalink($data['title'], '') . ' ' . $pinyin->abbr($data['title']),
+                'cover'          => $data['cover'] ? $data['cover'] : '',
                 'remark'         => $data['remark'],
                 'content'        => $data['content'],
                 'tags'           => $data['tags'] ? $data['tags'] : '',

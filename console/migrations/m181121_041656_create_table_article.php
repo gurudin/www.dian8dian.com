@@ -15,6 +15,7 @@ class m181121_041656_create_table_article extends Migration
             'fk_category_id' => $this->integer()->notNull()->comment('类别外键'),
             'title' => $this->string()->notNull()->comment('标题'),
             'title_search' => $this->string()->notNull()->comment('标题搜索拼音'),
+            'cover' => $this->string()->comment('封面图片'),
             'remark' => $this->string()->comment('简介'),
             'content' => $this->text()->comment('内容'),
             'tags' => $this->string()->comment('标签'),
