@@ -4,6 +4,7 @@ use yii\helpers\Url;
 
 \backend\assets\AppAsset::addScript($this, ['vue-tags-input.min.js']);
 \backend\assets\AppAsset::addCss($this, ['vue-tags-input.css']);
+\backend\assets\AppAsset::addScript($this, ['tinymce/tinymce.min.js']);
 
 $this->title = 'Article create & update';
 ?>
@@ -57,9 +58,9 @@ $this->title = 'Article create & update';
         <textarea class="form-control" rows="3" placeholder="Enter remark"></textarea>
       </div>
 
-      <div class="form-group col-8">
+      <div class="form-group col-10">
         <label>Content *</label>
-        <textarea class="form-control" rows="5"></textarea>
+        <textarea id="content"></textarea>
       </div>
 
       <div class="form-group col-4">
@@ -73,6 +74,41 @@ $this->title = 'Article create & update';
 
 <?php $this->beginBlock('js'); ?>
 <script>
+tinymce.init({
+  selector: '#content',
+  // language: 'zh_CN',
+  browser_spellcheck: true,
+  contextmenu: false,
+  height: 300,
+  plugins: [
+    "advlist autolink lists link image charmap print preview anchor",
+    "searchreplace visualblocks  fullscreen codesample",
+    "insertdatetime media table contextmenu paste imagetools wordcount",
+  ],
+  toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code | preview | fullscreen",
+  convert_urls: false,
+  images_upload_handler: function (blobInfo, success, failure) {
+    var data = new FormData();
+    data.append('file', blobInfo.blob());
+    $.ajax({
+      url: "<?=Url::to(['/upload/ajax-upload'])?>",
+      type: 'POST',
+      cache: false,
+      data: data,
+      processData: false,
+      contentType: false
+    }).done(function (response) {
+      if (response.status) {
+        success(response.path);
+      } else {
+        failure(response.msg);
+      }
+    }).fail(function (res) {
+      console.log(res);
+      failure('Upload error.')
+    });
+  }
+});
 Vue.component('tags-input', VueTagsInput.tagsInput);
 const vm = new Vue({
   el: '#app',

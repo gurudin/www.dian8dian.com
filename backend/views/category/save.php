@@ -35,7 +35,7 @@ $this->title = 'Menu';
         <label>Icon</label>
         <vue-upload-picker
           v-model="init.m.pic"
-          post-uri="/category/ajax-upload"
+          post-uri="/upload/ajax-upload"
           title="Upload category icon"
           icon='<i class="fas fa-file-import"></i>'
           class-name="btn btn-info btn-sm"></vue-upload-picker>
@@ -93,9 +93,6 @@ const vm = new Vue({
         }
       });
     },
-  },
-  created() {
-    // this.init.m.pic = 'https://d9iyrkd8y2zpr.cloudfront.net/webapi-assets-dev/resources/gifts/201811/cvt5apedmx-1541732215.png1sdddsss';
   }
 });
 </script>

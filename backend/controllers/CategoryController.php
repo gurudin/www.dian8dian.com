@@ -95,9 +95,4 @@ class CategoryController extends BaseController
             ? ['status' => true, 'msg' => 'success']
             : ['status' => false, 'msg' => 'Failed to delete.'];
     }
-
-    public function actionAjaxUpload()
-    {
-        return $this->upload();
-    }
 }
