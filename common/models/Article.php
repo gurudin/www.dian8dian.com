@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\data\Pagination;
 
 /**
  * This is the model class for table "{{%article}}".
@@ -41,7 +42,7 @@ class Article extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['title', 'title_search', 'remark', 'tags', 'source', 'demo'], 'string', 'max' => 255],
             [['author'], 'string', 'max' => 50],
-            [['status'], 'string', 'max' => 1],
+            [['status'], 'integer', 'max' => 1],
         ];
     }
 
@@ -77,5 +78,31 @@ class Article extends \yii\db\ActiveRecord
         }
         
         return $m;
+    }
+
+    /**
+     * Get all
+     */
+    public static function getAll(array $where = [])
+    {
+        $query = static::find()->where($where);
+        $count = $query->count();
+
+        $pagination = new Pagination(['totalCount' => $count]);
+        
+        $list = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->orderBy('id DESC')
+            ->all();
+
+        return ['list' => $list, 'page' => $pagination];
+    }
+
+    /**
+     * Get article by id.
+     */
+    public static function getArticleById(int $id = 0)
+    {
+        return static::find()->where(['id' => $id])->one();
     }
 }
