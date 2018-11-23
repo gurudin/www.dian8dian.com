@@ -29,7 +29,7 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'enabled'], 'integer'],
+            [['parent_id', 'enabled', 'weight'], 'integer'],
             [['category'], 'required'],
             [['category'], 'string', 'max' => 50],
             [['alias'], 'string', 'max' => 50],
@@ -47,6 +47,7 @@ class Category extends \yii\db\ActiveRecord
             'parent_id' => '父类ID',
             'category' => '类别名称',
             'alias' => '别名',
+            'weight' => '权重',
             'pic' => '类别图片',
             'remark' => '描述',
             'search_text' => '搜索拼音',
@@ -61,7 +62,9 @@ class Category extends \yii\db\ActiveRecord
     {
         $m = [];
         foreach ($this->attributeLabels() as $k => $v) {
-            $m[$k] = $k == 'parent_id' || $k == 'enabled' ? 0 : '';
+            $m[$k] = $k == 'parent_id' || $k == 'enabled' || $k == 'weight'
+                ? 0
+                : '';
         }
         
         return $m;
@@ -80,7 +83,7 @@ class Category extends \yii\db\ActiveRecord
      */
     public static function getAll()
     {
-        return static::find()->orderBy('id desc')->all();
+        return static::find()->orderBy('weight desc')->all();
     }
 
     /**

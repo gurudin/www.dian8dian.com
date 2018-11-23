@@ -101,6 +101,11 @@ class ArticleController extends BaseController
 
     /**
      * Edit status
+     *
+     * @param int $id
+     * @param int $status
+     *
+     * @return mixed
      */
     public function actionAjaxEditStatus()
     {
@@ -117,6 +122,10 @@ class ArticleController extends BaseController
 
     /**
      * Remove
+     *
+     * @param int $id
+     *
+     * @return mixed
      */
     public function actionAjaxRemove()
     {

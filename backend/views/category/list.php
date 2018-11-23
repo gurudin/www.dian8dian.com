@@ -2,6 +2,8 @@
 use yii\helpers\Json;
 use yii\helpers\Url;
 
+\backend\assets\AppAsset::addScript($this, ['vue-toggle-button.min.js']);
+
 $this->title = 'Menu List';
 ?>
 
@@ -42,25 +44,34 @@ $this->title = 'Menu List';
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">Weight</th>
           <th scope="col">Category</th>
+          <th scope="col">Alias</th>
           <th scope="col">Icon</th>
           <th scope="col">Parent Name</th>
-          <th scope="col">Search Text</th>
+          <th>Enabled</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item,inx) in listData">
-          <th scope="row">{{inx+1}}</th>
+          <th scope="row">{{item.weight}}</th>
           <td>{{item.category}}</td>
+          <td>{{item.alias}}</td>
           <td>
             <a :href="item.pic" target="_blank" v-if="item.pic != ''">
               <img :src="item.pic" class="rounded" width="35">
             </a>
           </td>
           <td>{{retParentName(item.parent_id)}}</td>
-          <td>{{item.search_text}}</td>
+          <td>
+            <toggle-button
+              :data="item"
+              v-model="item.enabled"
+              size="sm"
+              :options="options"
+              :before="editEnabled"></toggle-button>
+          </td>
           <td>
             <button
               type="button"
@@ -88,6 +99,7 @@ $this->title = 'Menu List';
 
 <?php $this->beginBlock('js'); ?>
 <script>
+Vue.component('toggle-button', VueToggleButton.toggleButton);
 const vm = new Vue({
   el: '#app',
   data() {
@@ -96,9 +108,14 @@ const vm = new Vue({
         list: <?=Json::encode($list, true)?>,
         categoryList: <?=Json::encode($category_list, true)?>,
         href: {
-          save: "<?=Yii::$app->request->hostInfo . URL::to(['/category/save'])?>",
+          save: "<?=URL::to(['/category/save'], true)?>",
+          enabled: "<?=URL::to(['/category/ajax-enabled'], true)?>"
         }
       },
+      options: [
+        {label: "Active", value: 1, "checked": "success"},
+        {label: "Deactive", value: 0, checked: "warning"}
+      ],
       search: {
         categoryKey: '',
         parentId: '',
@@ -148,10 +165,19 @@ const vm = new Vue({
       return parentName;
     },
     toEdit(id) {
-      var url = new URL(this.init.href.save);
-      url.searchParams.append('id', id);
-      
-      window.location = url;
+      window.location = getUrl(this.init.href.save, {id: id});
+    },
+    editEnabled(obj) {
+      $.post(this.init.href.enabled, {
+        id: obj.data.id,
+        enabled: obj.value
+      }, function (response) {
+        if (response.status) {
+          obj.data.enabled = obj.value;
+        } else {
+          $.alert(response.msg);
+        }
+      });
     },
     remove(event, id, inx) {
       if (!confirm('Are you sure to delete this item?')) {

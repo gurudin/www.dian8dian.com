@@ -56,6 +56,7 @@ class CategoryController extends BaseController
             $m->parent_id   = $data['parent_id'];
             $m->category    = $data['category'];
             $m->alias       = $data['alias'];
+            $m->weight      = $data['weight'];
             $m->remark      = $data['remark'];
             $m->pic         = $data['pic'];
             $m->search_text = $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']);
@@ -67,6 +68,7 @@ class CategoryController extends BaseController
                 'parent_id'   => $data['parent_id'],
                 'category'    => $data['category'],
                 'alias'       => $data['alias'],
+                'weight'      => $data['weight'],
                 'remark'      => $data['remark'],
                 'pic'         => $data['pic'],
                 'search_text' => $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']),
@@ -96,5 +98,26 @@ class CategoryController extends BaseController
         return Category::deleteAll(['id' => $this->args['id']])
             ? ['status' => true, 'msg' => 'success']
             : ['status' => false, 'msg' => 'Failed to delete.'];
+    }
+
+    /**
+     * Set enabled.
+     *
+     * @param int $id
+     * @param int $enabled
+     *
+     * @return mixed
+     */
+    public function actionAjaxEnabled()
+    {
+        $result = Category::updateAll([
+            'enabled' => $this->args['enabled']
+        ], [
+            'id' => $this->args['id']
+        ]);
+
+        return $result
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to enabled.'];
     }
 }

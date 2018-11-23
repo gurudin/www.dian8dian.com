@@ -14,6 +14,7 @@ class m181119_093538_create_table_category extends Migration
             'id' => $this->primaryKey(),
             'parent_id' => $this->integer()->notNull()->defaultValue(0)->comment('父类ID'),
             'category' => $this->string(50)->notNull()->comment('类别名称'),
+            'weight' => $this->integer()->defaultValue(0)->comment('权重 从大到小'),
             'alias' => $this->string(100)->comment('别名'),
             'pic' => $this->string()->defaultValue('')->comment('类别图片'),
             'remark' => $this->string()->comment('描述'),

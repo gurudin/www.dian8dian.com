@@ -37,6 +37,11 @@ $this->title = 'Menu';
       </div>
 
       <div class="form-group col-8">
+        <label>Weight</label>
+        <input type="number" class="form-control" v-model.trim="init.m.weight" placeholder="Enter weight">
+      </div>
+
+      <div class="form-group col-8">
         <label>Icon</label>
         <vue-upload-picker
           v-model="init.m.pic"
