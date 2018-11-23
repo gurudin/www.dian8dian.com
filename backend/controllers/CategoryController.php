@@ -55,6 +55,7 @@ class CategoryController extends BaseController
             $m = new Category;
             $m->parent_id   = $data['parent_id'];
             $m->category    = $data['category'];
+            $m->alias       = $data['alias'];
             $m->remark      = $data['remark'];
             $m->pic         = $data['pic'];
             $m->search_text = $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']);
@@ -65,6 +66,7 @@ class CategoryController extends BaseController
             $result = Category::updateAll([
                 'parent_id'   => $data['parent_id'],
                 'category'    => $data['category'],
+                'alias'       => $data['alias'],
                 'remark'      => $data['remark'],
                 'pic'         => $data['pic'],
                 'search_text' => $pinyin->permalink($data['category'], '') . ' ' . $pinyin->abbr($data['category']),

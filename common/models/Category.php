@@ -29,10 +29,11 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id'], 'integer'],
+            [['parent_id', 'enabled'], 'integer'],
             [['category'], 'required'],
             [['category'], 'string', 'max' => 50],
-            [['remark', 'search_text'], 'string', 'max' => 255],
+            [['alias'], 'string', 'max' => 50],
+            [['remark', 'search_text', 'pic'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,9 +46,11 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'parent_id' => '父类ID',
             'category' => '类别名称',
+            'alias' => '别名',
             'pic' => '类别图片',
             'remark' => '描述',
             'search_text' => '搜索拼音',
+            'enabled' => '0:不启动 1:启用',
         ];
     }
 
@@ -58,7 +61,7 @@ class Category extends \yii\db\ActiveRecord
     {
         $m = [];
         foreach ($this->attributeLabels() as $k => $v) {
-            $m[$k] = $k == 'parent_id' ? 0 : '';
+            $m[$k] = $k == 'parent_id' || $k == 'enabled' ? 0 : '';
         }
         
         return $m;

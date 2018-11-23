@@ -11,7 +11,7 @@ $this->title = 'Menu';
   <div class="card-body">
     <h4 class="card-title">
       Menu <small class="text-muted">create & update</small>
-      <a href="<?=URL::to(['/category/list'])?>" class="btn btn-light float-right" v-if="init.m.id!=''">
+      <a :href="href.index" class="btn btn-light float-right" v-if="init.m.id!=''">
         <i class="fas fa-arrow-left"></i> Back
       </a>
     </h4>
@@ -29,6 +29,11 @@ $this->title = 'Menu';
       <div class="form-group col-8">
         <label>Category <small>*</small></label>
         <input type="text" class="form-control" v-model.trim="init.m.category" placeholder="Enter category name">
+      </div>
+
+      <div class="form-group col-8">
+        <label>Alias <small>*</small></label>
+        <input type="text" class="form-control" v-model.trim="init.m.alias" placeholder="Enter category alias">
       </div>
 
       <div class="form-group col-8">
@@ -65,6 +70,10 @@ const vm = new Vue({
         m: <?=Json::encode($m, true)?>,
         categoryList: <?=Json::encode($category_list, true)?>,
       },
+      href: {
+        index: "<?=URL::to(['/category/list'], true)?>",
+        save: "<?=Url::to(['/category/ajax-save'], true)?>",
+      },
     };
   },
   computed: {
@@ -72,6 +81,7 @@ const vm = new Vue({
       var m = this.init.m;
       if (m.category == ''
         || m.remark == ''
+        || m.alias == ''
       ) {
         return false;
       }
@@ -82,11 +92,12 @@ const vm = new Vue({
   methods: {
     save(event) {
       var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
-      $.post("<?=Url::to(['/category/ajax-save'])?>", {
+      var _this = this;
+      $.post(this.href.save, {
         data: this.init.m
       }, function (response) {
         if (response.status) {
-          window.location.href = "<?=URL::to(['/category/list'])?>";
+          window.location.href = _this.href.index;
         } else {
           $.alert({message: response.msg});
           $btn.loading('reset');
