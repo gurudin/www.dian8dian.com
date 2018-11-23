@@ -13,11 +13,24 @@ class ArticleController extends BaseController
      */
     public function actionIndex()
     {
-        $result = Article::getAll();
+        $where  = [];
+        $search = [
+            'fk_category_id' => Yii::$app->request->get('fk_category_id', ''),
+            'status' => Yii::$app->request->get('status', ''),
+        ];
+
+        foreach ($search as $key => $value) {
+            if ($value != '') {
+                $where[$key] = $value;
+            }
+        }
+
+        $result = Article::getAll($where);
 
         return $this->render('index', [
             'category' => Category::getAll(),
             'result'   => $result,
+            'search'   => $search,
         ]);
     }
 
@@ -84,5 +97,31 @@ class ArticleController extends BaseController
         return $result
             ? ['status' => true, 'msg' => 'success']
             : ['status' => false, 'msg' => 'Failed to save.'];
+    }
+
+    /**
+     * Edit status
+     */
+    public function actionAjaxEditStatus()
+    {
+        $result = Article::updateAll([
+            'status' => $this->args['status']
+        ], [
+            'id' => $this->args['id']
+        ]);
+
+        return $result
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to edit.'];
+    }
+
+    /**
+     * Remove
+     */
+    public function actionAjaxRemove()
+    {
+        return Article::deleteAll(['id' => $this->args['id']])
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to remove.'];
     }
 }

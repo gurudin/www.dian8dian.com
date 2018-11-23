@@ -94,6 +94,13 @@ function initMenu(obj) {
 })(jQuery);
 
 var date = {
+  /**
+   * 
+   * @param {string} format 'Y-m-d H:m:s'
+   * @param {int} timestamp
+   * 
+   * @return {string} format time
+   */
   format: function(format, timestamp) {
     timestamp = timestamp.toString().length == 10 ? timestamp * 1000 : timestamp;
     let date = new Date(timestamp);
@@ -131,3 +138,22 @@ var date = {
     return str;
   }
 };
+
+/**
+ * 
+ * @param {string} currentUrl
+ * @param {object} params
+ * 
+ * @return {string} url
+ */
+var getUrl = function(currentUrl, params) {
+  var url = new URL(currentUrl);
+  
+  for (const key in params) {
+    if (params[key] != '') {
+      url.searchParams.append(key, params[key]);
+    }
+  }
+
+  return url.href;
+}

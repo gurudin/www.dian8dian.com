@@ -8,7 +8,9 @@ $this->title = 'Menu List';
 <div class="card">
   <div class="card-body">
     <h4 class="card-title">Menu 
-    <a href="<?=URL::to(['/category/save'])?>" class="btn btn-success float-right">Create</a>
+      <a :href="init.href.save" class="btn btn-outline-success float-right">
+        <i class="fas fa-file-signature"></i> Create
+      </a>
     </h4>
     <hr>
 
@@ -93,6 +95,9 @@ const vm = new Vue({
       init: {
         list: <?=Json::encode($list, true)?>,
         categoryList: <?=Json::encode($category_list, true)?>,
+        href: {
+          save: "<?=Yii::$app->request->hostInfo . URL::to(['/category/save'])?>",
+        }
       },
       search: {
         categoryKey: '',
@@ -143,7 +148,7 @@ const vm = new Vue({
       return parentName;
     },
     toEdit(id) {
-      var url = new URL("<?=Yii::$app->request->hostInfo . Url::to(['/category/save'])?>");
+      var url = new URL(this.init.href.save);
       url.searchParams.append('id', id);
       
       window.location = url;
