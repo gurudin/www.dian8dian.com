@@ -2,17 +2,11 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\web\Controller;
 
-/**
- * Site controller
- */
-class SiteController extends BaseController
+class NavController extends BaseController
 {
     /**
-     * Displays homepage.
-     *
-     * @return mixed
+     * Nav index
      */
     public function actionIndex()
     {

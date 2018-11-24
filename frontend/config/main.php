@@ -12,6 +12,12 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        /**
+         * Menu 组件.
+         */
+        'menu' => [
+            'class' => 'frontend\components\menu',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -36,14 +42,13 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'nav/<menu>' => 'nav/index',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

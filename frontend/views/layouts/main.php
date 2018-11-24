@@ -17,30 +17,12 @@ frontend\assets\AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<header class="bg-light w-100 border border-muted border-top-0 border-left-0 border-right-0">
+<header class="w-100 border border-muted border-top-0 border-left-0 border-right-0">
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="/">Widget</a>
 
     <div class="collapse navbar-collapse">
-      <?php print_r(common\widgets\Menu::widget(['item' => ['Home', 'Link', 'Menu', 'Article']]))?>
-
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#"  data-toggle="dropdown" >
-            Dropdown
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-          </div>
-        </li>
-      </ul>
+      <?=common\widgets\Menu::widget(['item' => Yii::$app->menu->nav])?>
     </div>
   </nav>
 </header>
