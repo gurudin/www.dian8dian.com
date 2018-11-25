@@ -15,31 +15,36 @@ class Menu extends Widget
      */
     public $item;
 
+    /**
+     * Current nav.
+     *
+     * @var string
+     */
+    public $current;
+
     public function init()
     {
         parent::init();
+
+        $this->current = Yii::$app->request->getPathInfo();
+    }
+
+    public function setMenu()
+    {
         $homeCls = '';
-        if (in_array(Yii::$app->request->getPathInfo(), ['', 'site/index'])) {
+        if (in_array($this->current, ['', 'site/index'])) {
             $homeCls = 'active';
         }
 
         $retTag = $this->renderLi($this->renderA('首页', '/'), $homeCls);
         foreach ($this->item as $key => $value) {
             $tmp = $this->renderA($value['category'], Url::to(['nav/index', 'menu' => $value['alias']], true));
-            $retTag .= $this->renderLi($tmp);
+
+            $tmpCls = in_array($this->current, ['nav/' . $value['alias']]) ? 'active' : '';
+            $retTag .= $this->renderLi($tmp, $tmpCls);
         }
 
-        // $retTag = '';
-        // foreach ($this->item as $value) {
-        //     $tmp = $this->renderA($value, '#');
-        //     $retTag .= $this->renderLi($tmp);
-        // }
-        
-        $tag = $this->renderUl($retTag);
-
-        print_r($tag);
-
-        // print_r($this->item);
+        return $this->renderUl($retTag);
     }
 
     public function renderUl(string $tag)
@@ -59,6 +64,6 @@ class Menu extends Widget
  
     public function run()
     {
-        // return Html::encode($this->message);
+        return Html::decode($this->setMenu());
     }
 }
