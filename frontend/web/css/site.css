@@ -16,13 +16,14 @@ header .navbar {
 .font14 {
   font-size: 14px !important;
 }
-.column4 {
+/* .column4 {
   -webkit-column-count: 4;
   -moz-column-count: 4;
   column-count: 4;
-}
+} */
 .card:hover {
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
   border: 1px solid #6c757d!important;
-  /* box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; */
   box-shadow: 0 .5rem 1rem #6c757d!important;
 }

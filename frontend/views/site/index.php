@@ -14,117 +14,18 @@ $this->title = 'My Yii Application';
   </div>
 
   <div class="card-columns">
-    <?=common\widgets\Article::widget(['item' => $list])?>
-    <div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">1Card title that wraps to a new line</h5>
-        <footer class="blockquote-footer text-right">
-          <small class="text-muted">
-            Author <cite title="Source Title">Source Title</cite>
-          </small>
-        </footer>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-
-    <!--<div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">1Card title that wraps to a new line</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">1Card title that wraps to a new line</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-
-    <div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">1Card title that wraps to a new line</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">1Card title that wraps to a new line</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div> -->
-
-    <!-- <div class="card">
-      <blockquote class="blockquote mb-0 card-body">
-        <p>2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer class="blockquote-footer">
-          <small class="text-muted">
-            Someone famous in <cite title="Source Title">Source Title</cite>
-          </small>
-        </footer>
-      </blockquote>
-    </div>
-
-    <div class="card">
-      <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">3Card title</h5>
-        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-
-    <div class="card bg-primary text-white text-center p-3">
-      <blockquote class="blockquote mb-0">
-        <p>4Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat.</p>
-        <footer class="blockquote-footer">
-          <small>
-            Someone famous in <cite title="Source Title">Source Title</cite>
-          </small>
-        </footer>
-      </blockquote>
-    </div>
-
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">5Card title</h5>
-        <p class="card-text">This card has a regular title and short paragraphy of text below it.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-
-    <div class="card">
-      6<img class="card-img" src=".../100px260/" alt="Card image">
-    </div>
-
-    <div class="card p-3 text-right">
-      <blockquote class="blockquote mb-0">
-        <p>7Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer class="blockquote-footer">
-          <small class="text-muted">
-            Someone famous in <cite title="Source Title">Source Title</cite>
-          </small>
-        </footer>
-      </blockquote>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">8Card title</h5>
-        <p class="card-text">This is another card with title and supporting text below. This card has some additional content to make it slightly taller overall.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div> -->
-
+    <?=common\widgets\Article::widget(['item' => $article['list']])?>
   </div>
+
+  <div>
+    <div class="float-left"></div>
+    <div class="float-right">
+      <?= common\widgets\LinkPager::widget([
+        'pagination'    => $article['page'],
+        'prevPageLabel' => '&laquo;',
+        'nextPageLabel' => '&raquo;'
+      ]); ?>
+    </div>
+  </div>
+  
 </div>

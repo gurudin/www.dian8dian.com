@@ -13,6 +13,6 @@ class NavController extends BaseController
     {
         $res = Article::getArticleByCategoryIds();
         
-        return $this->render('index', ['list' => $res]);
+        return $this->render('index', ['list' => $res['list'], 'page' => $res['page']]);
     }
 }

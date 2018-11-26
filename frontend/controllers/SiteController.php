@@ -16,6 +16,6 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->render('index', ['list' => \common\models\Article::getArticleByCategoryIds()]);
+        return $this->render('index', ['article' => \common\models\Article::getArticleByCategoryIds()]);
     }
 }

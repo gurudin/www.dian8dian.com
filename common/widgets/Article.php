@@ -15,22 +15,13 @@ class Article extends Widget
      */
     public $item;
 
-    // <div class="card">
-    //   <img class="card-img-top" src=".../100px160/" alt="Card image cap">
-    //   <div class="card-body">
-    //     <h5 class="card-title">1Card title that wraps to a new line</h5>
-    //     <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    //     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    //   </div>
-    // </div>
-
     public function init()
     {
         parent::init();
 
         $result = '';
         foreach ($this->item as $key => $item) {
-            $tmp_img = $item->cover != ''
+            $cover = $item->cover != ''
                 ? Html::a(
                     Html::img(Yii::$app->params['imgUrl'] . $item->cover, [
                         'class' => 'card-img-top',
@@ -56,7 +47,7 @@ class Article extends Widget
                 ['class' => 'blockquote-footer text-right']
             );
 
-            $tmp_title = Html::a(
+            $title = Html::a(
                 Html::tag('h6', $item->title, ['class' => 'card-title']),
                 Url::to(['article', 'id' => $item->id]), // TODO:
                 [
@@ -67,12 +58,28 @@ class Article extends Widget
             );
 
 
-            $tmp_remark = $item->remark != ''
+            $remark = $item->remark != ''
                 ? Html::tag('p', $item->remark, ['class' => 'card-text text-muted font13'])
                 : '';
 
-            $tmp_body = Html::tag('div', $tmp_title . $tmp_remark . $author, ['class' => 'card-body']);
-            $tmp_card = Html::tag('div', $tmp_img . $tmp_body, ['class' => 'card p-2']);
+            $tags = '';
+            if ($item->tags != '') {
+                $tagHtml = '';
+                foreach ($item->tags as $key => $tag) {
+                    $tagHtml .= ' ' . Html::a($tag, Url::to(['search', 'tag' => $tag]), ['class' => 'text-info badge badge-light p-2']);
+                }
+                $tags = Html::tag(
+                    'p',
+                    Html::tag('small', $tagHtml, []),
+                    [
+                        'class' => 'card-text',
+                        'style' => 'overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'
+                    ]
+                );
+            }
+
+            $tmp_body = Html::tag('div', $title . $remark . $author . $tags, ['class' => 'card-body']);
+            $tmp_card = Html::tag('div', $cover . $tmp_body, ['class' => 'card p-2']);
 
             $result .= $tmp_card;
         }

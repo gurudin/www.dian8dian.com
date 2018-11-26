@@ -111,6 +111,8 @@ class Article extends \yii\db\ActiveRecord
      * Get article by category id.
      *
      * @param array $categorys
+     *
+     * @return array ['list' => list, 'page' => page]
      */
     public static function getArticleByCategoryIds(array $categorys = [])
     {
@@ -120,16 +122,23 @@ class Article extends \yii\db\ActiveRecord
             $where = ['in', 'fk_category_id', $categorys];
         }
 
-        $list = static::find()
+        $query = static::find()->where($where)->andWhere(['status' => 1]);
+        $count = $query->count();
+
+        $pagination = new Pagination(['totalCount' => $count, 'defaultPageSize' => 20]);
+
+        $list = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
             ->select(['id','fk_category_id','title','title_search','cover','remark','tags','author','created_at'])
-            ->where($where)
-            ->andWhere(['status' => 1])
+            ->orderBy('id DESC')
             ->all();
 
         foreach ($list as $key => $item) {
-            $item['tags'] = explode(",", $item['tags']);
+            if ($item['tags'] != '') {
+                $item['tags'] = explode(",", $item['tags']);
+            }
         }
 
-        return $list;
+        return ['list' => $list, 'page' => $pagination];
     }
 }
