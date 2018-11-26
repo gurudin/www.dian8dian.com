@@ -17,10 +17,19 @@ return [
             'icon'  => 'fas fa-newspaper',
             'label' => 'Article',
             'href'  => '#',
-            'open'  => true,
+            'open'  => false,
             'child' => [
                 ['label' => 'All acticle', 'href' => '/article/index'],
                 ['label' => 'Create & Update', 'href' => '/article/save'],
+            ]
+        ],
+        [
+            'icon' => 'fas fa-spider',
+            'label' => 'Spider',
+            'href' => '#',
+            'open' => false,
+            'child' => [
+                ['label' => 'Set spider', 'href' => '/spider/spider'],
             ]
         ],
     ],
