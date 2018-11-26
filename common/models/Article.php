@@ -106,4 +106,30 @@ class Article extends \yii\db\ActiveRecord
     {
         return static::find()->where(['id' => $id])->one();
     }
+
+    /**
+     * Get article by category id.
+     *
+     * @param array $categorys
+     */
+    public static function getArticleByCategoryIds(array $categorys = [])
+    {
+        if (empty($categorys)) {
+            $where = [];
+        } else {
+            $where = ['in', 'fk_category_id', $categorys];
+        }
+
+        $list = static::find()
+            ->select(['id','fk_category_id','title','title_search','cover','remark','tags','author','created_at'])
+            ->where($where)
+            ->andWhere(['status' => 1])
+            ->all();
+
+        foreach ($list as $key => $item) {
+            $item['tags'] = explode(",", $item['tags']);
+        }
+
+        return $list;
+    }
 }

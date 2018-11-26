@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\models\Article;
 
 class NavController extends BaseController
 {
@@ -10,6 +11,8 @@ class NavController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $res = Article::getArticleByCategoryIds();
+        
+        return $this->render('index', ['list' => $res]);
     }
 }

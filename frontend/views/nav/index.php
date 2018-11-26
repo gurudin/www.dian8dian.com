@@ -5,5 +5,7 @@
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
- <h1>nav</h1>
+  <div class="card-columns column4">
+    <?=common\widgets\Article::widget(['item' => $list])?>
+  </div>
 </div>
