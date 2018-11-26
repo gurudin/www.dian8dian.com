@@ -38,7 +38,7 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['fk_category_id', 'title', 'title_search', 'created_at'], 'required'],
-            [['fk_category_id', 'created_at'], 'integer'],
+            [['fk_category_id', 'created_at', 'weight'], 'integer'],
             [['content'], 'string'],
             [['title', 'title_search', 'remark', 'tags', 'source', 'demo', 'cover'], 'string', 'max' => 255],
             [['author'], 'string', 'max' => 50],
@@ -56,6 +56,7 @@ class Article extends \yii\db\ActiveRecord
             'fk_category_id' => '类别外键',
             'title' => '标题',
             'title_search' => '标题搜索拼音',
+            'weight' => '权重 从大到小',
             'cover' => '封面图片',
             'remark' => '简介',
             'content' => '内容',
@@ -75,7 +76,7 @@ class Article extends \yii\db\ActiveRecord
     {
         $m = [];
         foreach ($this->attributeLabels() as $k => $v) {
-            $m[$k] = $k == 'status' ? 0 : '';
+            $m[$k] = $k == 'status' || $k == 'weight' ? 0 : '';
         }
         
         return $m;

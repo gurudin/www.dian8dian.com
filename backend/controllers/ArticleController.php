@@ -68,6 +68,7 @@ class ArticleController extends BaseController
             $m->cover          = $data['cover'] ? $data['cover'] : '';
             $m->remark         = $data['remark'];
             $m->content        = $data['content'];
+            $m->weight         = $data['weight'] ? $data['weight'] : 0;
             $m->tags           = $data['tags'] ? $data['tags'] : '';
             $m->author         = $data['author'] ? $data['author'] : '';
             $m->source         = $data['source'] ? $data['source'] : '';
@@ -85,6 +86,7 @@ class ArticleController extends BaseController
                 'cover'          => $data['cover'] ? $data['cover'] : '',
                 'remark'         => $data['remark'],
                 'content'        => $data['content'],
+                'weight'         => $data['weight'] ? $data['weight'] : 0,
                 'tags'           => $data['tags'] ? $data['tags'] : '',
                 'author'         => $data['author'] ? $data['author'] : '',
                 'source'         => $data['source'] ? $data['source'] : '',
