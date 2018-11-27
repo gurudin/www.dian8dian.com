@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\data\Pagination;
 
 /**
  * This is the model class for table "spider_rule".
@@ -12,7 +13,7 @@ use Yii;
  * @property string $url_data
  * @property string $rule
  * @property integer $status
- * @property string $dara
+ * @property string $data
  */
 class SpiderRule extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class SpiderRule extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'status'], 'integer'],
-            [['url_data', 'rule', 'dara', 'title'], 'string'],
+            [['url_data', 'rule', 'data', 'title'], 'string'],
         ];
     }
 
@@ -47,7 +48,7 @@ class SpiderRule extends \yii\db\ActiveRecord
             'url_data' => 'url规则 json:[{"url":"http://example.com","method":"get"},{"url":"http://example.com","method":"get"}]',
             'rule' => '规则 json:{"mode":"api","title":{"value":"","type":"string"},"tags":{"value":"","type":"array"}}',
             'status' => '状态 1:未爬取 2:已爬取添加到文章 3:已爬取添加到规则 4:规则错误',
-            'dara' => '爬取结果',
+            'data' => '爬取结果',
         ];
     }
 
@@ -77,8 +78,26 @@ class SpiderRule extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function getAll()
+    public static function getAll(array $where = [])
     {
-        return static::find()->all();
+        $query = static::find()->where($where);
+        $count = $query->count();
+
+        $pagination = new Pagination(['totalCount' => $count]);
+        
+        $list = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->orderBy('id DESC')
+            ->all();
+
+        return ['list' => $list, 'page' => $pagination];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function getSpiderById(int $id)
+    {
+        return static::find()->where(['id' => $id])->one();
     }
 }

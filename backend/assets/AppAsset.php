@@ -18,12 +18,11 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/custom.js',
-        
     ];
     public $depends = [
-        'backend\assets\BaseAsset',
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
+        'backend\assets\BaseAsset',
     ];
 
     /**

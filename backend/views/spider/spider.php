@@ -135,18 +135,20 @@ const vm = new Vue({
   el: '#app',
   data() {
     return {
-      result: '',
+      result: <?=Json::encode($m['data'])?>,
       init: {
-        title: '',
-        m: {
-          mode: 'api',
-          // title: {value: '', type: 'string'},
-          // tags: {value: '', type: 'array'},
-        },
-        target: [
+        title: "<?=$m['title']?>",
+        m: <?=Json::encode($m['rule'], true)?>,
+        // {
+        //   mode: 'api',
+        //   title: {value: '', type: 'string'},
+        //   tags: {value: '', type: 'array'},
+        // },
+        target: <?=Json::encode($m['url_data'], true)?>,
+        // [
           // {url: 'http://www.wheelsfactory.cn/api/getTagByPluginItemId?id=56', method: 'get'},
           // {url: 'http://www.wheelsfactory.cn/api/getPluginById?id=56', method: 'post'}
-        ],
+        // ],
         href: {
           index: "<?=Url::to(['spider/index'], true)?>",
           getData: "<?=Url::to(['spider/ajax-get-data'], true)?>",
@@ -225,21 +227,32 @@ const vm = new Vue({
       });
     },
     save(event) {
+      var _this = this;
       $.post(this.init.href.save, {
-        id: '',
+        id: '<?=$m['id']?>',
         title: this.init.title,
         m: this.init.m,
         target: this.init.target,
         data: this.result,
       }, function (response) {
-        console.log(response);
         if (response.status) {
-          window.location.href = this.init.href.index;
+          window.location.href = _this.init.href.index;
         } else {
           $.alert({message: response.msg});
         }
       });
     },
+  },
+  created() {
+    if (this.init.target) {
+      var _this = this;
+      this.init.target.forEach(row =>{
+        _this.textareaData += row.url + ' ' + row.method;
+        _this.textareaData += '\r\n';
+      });
+
+      this.changeTextarea();
+    }
   }
 });
 </script>

@@ -48,14 +48,15 @@ $this->title = 'Spider List';
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in init.list">
+        <tr v-for="(item,inx) in init.list">
           <td>{{getParentName(item.parent_id) == '' ? '' : getParentName(item.parent_id) + '->'}} {{item.title}}</td>
           <td v-html="getStatus(item.status)"></td>
           <td>
             <button
               type="button"
               class="btn btn-warning btn-sm text-white"
-              @click="toEdit(item.id)">
+              @click="toEdit(item.id)"
+              data-toggle="tooltip" data-placement="top" title="Tooltip on top">
               <i class="fas fa-edit"></i></button>
 
             <button
@@ -64,6 +65,13 @@ $this->title = 'Spider List';
               @click="toChild(item.id)"
               title="添加子规则">
               <i class="fas fa-file-signature"></i></button>
+            
+            <button
+              type="button"
+              class="btn btn-danger btn-sm text-white"
+              @click="remove(item.id, inx)"
+              title="添加子规则">
+              <i class="fas fa-trash"></i></button>
           </td>
         </tr>
       </tbody>
@@ -71,7 +79,7 @@ $this->title = 'Spider List';
     
     <div>
       <div class="float-right">
-        
+        <?= common\widgets\LinkPager::widget(['pagination' => $page]); ?>
       </div>
     </div>
   </div>
@@ -86,7 +94,8 @@ const vm = new Vue({
       init: {
         list: <?=Json::encode($list, true)?>,
         href: {
-          save: "<?=URL::to(['/spider/spider'], true)?>",
+          save: "<?=Url::to(['/spider/spider'], true)?>",
+          remove: "<?=Url::to(['spider/ajax-remove'], true)?>",
         }
       },
     };
@@ -125,6 +134,22 @@ const vm = new Vue({
     toChild(parent_id) {
       window.location = getUrl(this.init.href.save, {parent_id: parent_id});
     },
+    remove(id, inx) {
+      if (!confirm('Are you sure to delete this item?')) {
+        return false;
+      }
+
+      var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
+      var _this = this;
+      $.post(this.init.href.remove, {id: id}, function (response) {
+        if (response.status) {
+          _this.init.list.splice(inx, 1);
+        } else {
+          $.alert({message: response.msg});
+        }
+        $btn.loading('reset');
+      });
+    }
   },
 });
 </script>

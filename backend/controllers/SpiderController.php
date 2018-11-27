@@ -3,8 +3,8 @@ namespace backend\controllers;
 
 use Yii;
 use GuzzleHttp\Client;
-use Overtrue\Pinyin\Pinyin;
 use common\models\SpiderRule;
+use yii\helpers\Json;
 
 class SpiderController extends BaseController
 {
@@ -13,9 +13,9 @@ class SpiderController extends BaseController
      */
     public function actionIndex()
     {
-        $list = SpiderRule::getAll();
+        $result = SpiderRule::getAll([]);
 
-        return $this->render('index', ['list' => $list]);
+        return $this->render('index', ['list' => $result['list'], 'page' => $result['page']]);
     }
 
     /**
@@ -23,7 +23,17 @@ class SpiderController extends BaseController
      */
     public function actionSpider()
     {
-        return $this->render('spider');
+        if (Yii::$app->request->get('id', '') == '') {
+            $m = (new SpiderRule)->emptyModel();
+            $m['rule'] = ['mode' => 'api'];
+        } else {
+            $m = SpiderRule::getSpiderById(Yii::$app->request->get('id'));
+            $m->url_data = Json::decode($m->url_data, true);
+            $m->rule     = Json::decode($m->rule, true);
+            $m->data     = Json::decode($m->data, true);
+        }
+
+        return $this->render('spider', ['m' => $m]);
     }
 
     /**
@@ -43,21 +53,47 @@ class SpiderController extends BaseController
         if ($id == '') {
             // Create
             $m = new SpiderRule;
-            $m->title    = $this->args['title'];
-            $m->url_data = json_encode($target, JSON_UNESCAPED_UNICODE);
-            $m->rule     = json_encode($spider, JSON_UNESCAPED_UNICODE);
+            $m->title     = $this->args['title'];
+            $m->parent_id = $this->args['parent_id'] ? $this->args['parent_id'] : 0;
+            $m->url_data  = json_encode($target, JSON_UNESCAPED_UNICODE);
+            $m->rule      = json_encode($spider, JSON_UNESCAPED_UNICODE);
             if ($data != '') {
-                $m->dara   = json_encode($data, JSON_UNESCAPED_UNICODE);
+                $m->data   = json_encode($data, JSON_UNESCAPED_UNICODE);
                 $m->status = 3;
             }
             $result = $m->save();
         } else {
             // Update
+            $update = [];
+            $update['title']     = $this->args['title'];
+            $update['parent_id'] = $this->args['parent_id'] ? $this->args['parent_id'] : 0;
+            $update['url_data']  = json_encode($target, JSON_UNESCAPED_UNICODE);
+            $update['rule']      = json_encode($spider, JSON_UNESCAPED_UNICODE);
+            if ($data != '') {
+                $update['data']   = json_encode($data, JSON_UNESCAPED_UNICODE);
+                $update['status'] = 3;
+            } else {
+                $update['data']   = '';
+                $update['status'] = 1;
+            }
+            $result = SpiderRule::updateAll($update, [
+                'id' => $id
+            ]);
         }
 
         return $result
             ? ['status' => true, 'msg' => 'success']
             : ['status' => false, 'msg' => 'Failed to save.'];
+    }
+
+    /**
+     * Ajax remove.
+     */
+    public function actionAjaxRemove()
+    {
+        return SpiderRule::deleteAll(['id' => $this->args['id']])
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to remove.'];
     }
 
     /**
