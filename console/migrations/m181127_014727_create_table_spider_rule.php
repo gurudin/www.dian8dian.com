@@ -18,6 +18,7 @@ class m181127_014727_create_table_spider_rule extends Migration
             'rule' => $this->text()->comment('规则 json:{"mode":"api","title":{"value":"","type":"string"},"tags":{"value":"","type":"array"}}'),
             'status' => $this->tinyInteger(1)->notNull()->comment('状态 1:未爬取 2:已爬取添加到文章 3:已爬取添加到规则 4:规则错误'),
             'data' => $this->text()->comment('爬取结果'),
+            'article_rule' => $this->text()->comment('文字规则 json:{"title": ""}'),
         ]);
 
         $this->createIndex('idx_parent_id', 'spider_rule', 'parent_id');

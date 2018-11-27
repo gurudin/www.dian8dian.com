@@ -5,6 +5,7 @@ use Yii;
 use Overtrue\Pinyin\Pinyin;
 use common\models\Category;
 use common\models\Article;
+use common\models\SpiderRule;
 
 class ArticleController extends BaseController
 {
@@ -45,6 +46,24 @@ class ArticleController extends BaseController
             $m = Article::getArticleById($id);
         }
 
+        // rule
+        if (Yii::$app->request->get('rule_id', '') != '') {
+            $rule_info = SpiderRule::getSpiderById(Yii::$app->request->get('rule_id'), ['data']);
+            if ($rule_info['data'] != '') {
+                $rule = json_decode($rule_info['data'], true);
+
+                foreach ($m as $key => $value) {
+                    if ($key == 'tags') {
+                        $m[$key] = isset($rule[$key]) ? implode(",", $rule[$key]) : $m[$key];
+                    } else {
+                        $m[$key] = isset($rule[$key]) ? $rule[$key] : $m[$key];
+                    }
+                }
+
+                $m['rule'] = Yii::$app->request->get('rule_id');
+            }
+        }
+
         return $this->render('save', [
             'm' => $m,
             'category' => Category::getAll(),
@@ -75,6 +94,11 @@ class ArticleController extends BaseController
             $m->demo           = $data['demo'] ? $data['demo'] : '';
             $m->status         = 0;
             $m->created_at     = time();
+
+            // Rule
+            if (isset($data['rule'])) {
+                SpiderRule::updateAll(['status' => 2], ['id' => $data['rule']]);
+            }
 
             $result = $m->save();
         } else {

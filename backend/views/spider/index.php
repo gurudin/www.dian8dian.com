@@ -61,10 +61,16 @@ $this->title = 'Spider List';
 
             <button
               type="button"
-              class="btn btn-info btn-sm text-white"
-              @click="toChild(item.id)"
-              title="添加子规则">
+              class="btn btn-success btn-sm text-white"
+              @click="toSave(item.id)">
               <i class="fas fa-file-signature"></i></button>
+
+            <button
+              type="button"
+              class="btn btn-info btn-sm text-white"
+              @click="toCopy(item.id)"
+              title="Copy">
+              <i class="fas fa-copy"></i></i></button>
             
             <button
               type="button"
@@ -96,6 +102,7 @@ const vm = new Vue({
         href: {
           save: "<?=Url::to(['/spider/spider'], true)?>",
           remove: "<?=Url::to(['spider/ajax-remove'], true)?>",
+          create: "<?=Url::to(['article/save'], true)?>",
         }
       },
     };
@@ -133,6 +140,12 @@ const vm = new Vue({
     },
     toChild(parent_id) {
       window.location = getUrl(this.init.href.save, {parent_id: parent_id});
+    },
+    toCopy(id) {
+      window.location = getUrl(this.init.href.save, {copy_id: id});
+    },
+    toSave(id) {
+      window.location = getUrl(this.init.href.create, {rule_id: id});
     },
     remove(id, inx) {
       if (!confirm('Are you sure to delete this item?')) {

@@ -234,6 +234,7 @@ const vm = new Vue({
         m: this.init.m,
         target: this.init.target,
         data: this.result,
+        article_rule: <?=Json::encode($m['article_rule'], true)?>,
       }, function (response) {
         if (response.status) {
           window.location.href = _this.init.href.index;

@@ -49,6 +49,7 @@ class SpiderRule extends \yii\db\ActiveRecord
             'rule' => '规则 json:{"mode":"api","title":{"value":"","type":"string"},"tags":{"value":"","type":"array"}}',
             'status' => '状态 1:未爬取 2:已爬取添加到文章 3:已爬取添加到规则 4:规则错误',
             'data' => '爬取结果',
+            'article_rule' => '文字规则 json:{"title": ""}',
         ];
     }
 
@@ -96,8 +97,8 @@ class SpiderRule extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function getSpiderById(int $id)
+    public static function getSpiderById(int $id, array $fileds = [])
     {
-        return static::find()->where(['id' => $id])->one();
+        return static::find()->select($fileds)->where(['id' => $id])->one();
     }
 }
