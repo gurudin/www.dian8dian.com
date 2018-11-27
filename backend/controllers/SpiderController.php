@@ -4,26 +4,74 @@ namespace backend\controllers;
 use Yii;
 use GuzzleHttp\Client;
 use Overtrue\Pinyin\Pinyin;
+use common\models\SpiderRule;
 
 class SpiderController extends BaseController
 {
     /**
-     * Spider
+     * list
+     */
+    public function actionIndex()
+    {
+        $list = SpiderRule::getAll();
+
+        return $this->render('index', ['list' => $list]);
+    }
+
+    /**
+     * Set spider
      */
     public function actionSpider()
     {
         return $this->render('spider');
     }
 
+    /**
+     * Ajax add
+     */
+    public function actionAjaxSave()
+    {
+        $id     = $this->args['id'];
+        $data   = $this->args['data'];
+        $spider = $this->args['m'];
+        $target = isset($this->args['target']) ? $this->args['target'] : '';
+
+        if ($target == '') {
+            return ['status' => false, 'msg' => 'URL未设置.'];
+        }
+
+        if ($id == '') {
+            // Create
+            $m = new SpiderRule;
+            $m->title    = $this->args['title'];
+            $m->url_data = json_encode($target, JSON_UNESCAPED_UNICODE);
+            $m->rule     = json_encode($spider, JSON_UNESCAPED_UNICODE);
+            if ($data != '') {
+                $m->dara   = json_encode($data, JSON_UNESCAPED_UNICODE);
+                $m->status = 3;
+            }
+            $result = $m->save();
+        } else {
+            // Update
+        }
+
+        return $result
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to save.'];
+    }
+
+    /**
+     * Ajax get for data.
+     */
     public function actionAjaxGetData()
     {
         $target  = $this->args['target'];
         $data    = $this->args['data'];
-        $article = [];
+        $result  = [];
 
         // Mode api
         if ($data['mode'] == 'api') {
-            $article = $this->getApi($target, $data);
+            $result = $this->getApi($target, $data);
         }
 
         // Mode web
@@ -31,7 +79,7 @@ class SpiderController extends BaseController
 
         }
 
-        return ['status' => true, 'msg' => 'success', 'data' => $article];
+        return ['status' => true, 'msg' => 'success', 'data' => $result['article'], 'response' => $result['response']];
     }
 
     /**
@@ -84,7 +132,7 @@ class SpiderController extends BaseController
             }
         }
 
-        return $article;
+        return ['article' => $article, 'response' => $result];
     }
 
     private function getApiValue(array $response = [], array $data = [])

@@ -11,7 +11,7 @@ $this->title = 'Spider';
   <div class="card-body">
     <h4 class="card-title">
       Set spider <small class="text-muted">create & update</small>
-      <a href="href.index" class="btn btn-light float-right">
+      <a :href="init.href.index" class="btn btn-light float-right">
         <i class="fas fa-arrow-left"></i> Back
       </a>
     </h4>
@@ -19,6 +19,11 @@ $this->title = 'Spider';
 
     <form>
       <div class="col-12">
+        <div class="form-group">
+          <label>Rule name</label>
+          <input type="text" class="form-control" v-model.trim="init.title" placeholder="Rule name">
+        </div>
+
         <div class="form-group">
           <label>Url</label>
           <textarea
@@ -62,12 +67,34 @@ $this->title = 'Spider';
             <p v-if="init.m.mode == 'api'">Api 模式输入获取字段深度. 例: data/list</p>
           </div>
         </div>
+
+        <br>
+        <div class="input-group mb-3" style="width: 300px;">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Add rule:</span>
+          </div>
+          <input type="text" class="form-control" placeholder="Enter take name" ref="take-name">
+          <div class="input-group-append">
+            <button class="btn btn-info" type="button" @click="addTakeName">add</button>
+          </div>
+        </div>
         <hr>
 
-        <div class="form-group">
-          <label>Title</label>
+        <!-- Add rule -->
+        <div class="form-group" v-for="(item,key) in init.m" v-if="key!='mode'">
+          <label>{{key.substring(0,1).toUpperCase() + key.substring(1)}}</label>
+
+          <!-- Image url base -->
+          <div class="input-group mb-3" v-if="init.m[key].type == 'image'">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Image url base:</span>
+            </div>
+            <input type="text" class="form-control" v-model.trim="init.m[key].base" placeholder="example: http://img.com/">
+          </div>
+          <!-- /Image url base -->
+
           <div class="input-group">
-            <input type="text" class="form-control" v-model.trim="init.m.title.value" placeholder="Enter title regular">
+            <input type="text" class="form-control" v-model.trim="init.m[key].value" :placeholder="'Enter ' + key + ' rule'">
             <!-- Mode web -->
             <div class="input-group-append" v-if="init.m.mode == 'web'">
               <button class="btn btn-outline-secondary" type="button">Test</button>
@@ -75,34 +102,15 @@ $this->title = 'Spider';
 
             <!-- Mode api -->
             <div class="input-group-append" v-if="init.m.mode == 'api'">
-              <select class="custom-select" v-model="init.m.title.type">
+              <select class="custom-select" v-model="init.m[key].type">
                 <option value="string">String</option>
                 <option value="array">Array</option>
               </select>
             </div>
           </div>
-          <small class="form-text text-muted">{{result.title}}</small>
+          <small class="form-text text-muted">{{result[key]}}</small>
         </div>
-
-        <div class="form-group">
-          <label>Tags</label>
-          <div class="input-group">
-            <input type="text" class="form-control" v-model.trim="init.m.tags.value" placeholder="Enter tags regular">
-            <!-- Mode web -->
-            <div class="input-group-append" v-if="init.m.mode == 'web'">
-              <button class="btn btn-outline-secondary" type="button">Test</button>
-            </div>
-
-            <!-- Mode api -->
-            <div class="input-group-append" v-if="init.m.mode == 'api'">
-              <select class="custom-select" v-model="init.m.tags.type">
-                <option value="string">String</option>
-                <option value="array">Array</option>
-              </select>
-            </div>
-          </div>
-          <small class="form-text text-muted">{{result.tags}}</small>
-        </div>
+        <!-- /Add rule -->
 
       </div>
 
@@ -114,7 +122,7 @@ $this->title = 'Spider';
 
       <div class="form-group col-4">
         <button type="button" class="btn btn-success" @click="save">
-          Save
+          Save rule
         </button>
       </div>
     </form>
@@ -129,18 +137,21 @@ const vm = new Vue({
     return {
       result: '',
       init: {
+        title: '',
         m: {
           mode: 'api',
-          title: {value: '', type: 'string'},
-          tags: {value: '', type: 'array'},
+          // title: {value: '', type: 'string'},
+          // tags: {value: '', type: 'array'},
         },
         target: [
-          {url: 'http://www.wheelsfactory.cn/api/getTagByPluginItemId?id=56', method: 'get'},
-          {url: 'http://www.wheelsfactory.cn/api/getPluginById?id=56', method: 'post'}
-        ]
-      },
-      href: {
-        getData: "<?=Url::to(['spider/ajax-get-data'], true)?>",
+          // {url: 'http://www.wheelsfactory.cn/api/getTagByPluginItemId?id=56', method: 'get'},
+          // {url: 'http://www.wheelsfactory.cn/api/getPluginById?id=56', method: 'post'}
+        ],
+        href: {
+          index: "<?=Url::to(['spider/index'], true)?>",
+          getData: "<?=Url::to(['spider/ajax-get-data'], true)?>",
+          save: "<?=Url::to(['spider/ajax-save'], true)?>",
+        },
       },
       textareaData: '',
       isTextarea: false,
@@ -191,10 +202,19 @@ const vm = new Vue({
       this.isTextarea = validate;
       this.init.target = target;
     },
+    addTakeName() {
+      let name = this.$refs['take-name'].value;
+      if (name == '') {
+        return false;
+      }
+
+      this.$refs['take-name'].value = '';
+      this.$set(this.init.m, name, {value: '', type: 'string'});
+    },
     getForData(event) {
       var $btn = $(event.currentTarget).loading('loading...');
       var _this = this;
-      $.post(this.href.getData, {
+      $.post(this.init.href.getData, {
         target: this.init.target,
         data: this.init.m,
       }, function (response) {
@@ -205,7 +225,20 @@ const vm = new Vue({
       });
     },
     save(event) {
-      
+      $.post(this.init.href.save, {
+        id: '',
+        title: this.init.title,
+        m: this.init.m,
+        target: this.init.target,
+        data: this.result,
+      }, function (response) {
+        console.log(response);
+        if (response.status) {
+          window.location.href = this.init.href.index;
+        } else {
+          $.alert({message: response.msg});
+        }
+      });
     },
   }
 });

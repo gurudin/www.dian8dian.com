@@ -12,6 +12,7 @@ class m181127_014727_create_table_spider_rule extends Migration
     {
         $this->createTable('spider_rule', [
             'id' => $this->primaryKey(),
+            'title' => $this->string()->comment('名称'),
             'parent_id' => $this->integer()->notNull()->defaultValue(0)->comment('父类id'),
             'url_data' => $this->text()->comment('url规则 json:[{"url":"http://example.com","method":"get"},{"url":"http://example.com","method":"get"}]'),
             'rule' => $this->text()->comment('规则 json:{"mode":"api","title":{"value":"","type":"string"},"tags":{"value":"","type":"array"}}'),

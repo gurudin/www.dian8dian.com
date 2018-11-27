@@ -29,6 +29,7 @@ return [
             'href' => '#',
             'open' => false,
             'child' => [
+                ['label' => 'All spider', 'href' => '/spider/index'],
                 ['label' => 'Set spider', 'href' => '/spider/spider'],
             ]
         ],
