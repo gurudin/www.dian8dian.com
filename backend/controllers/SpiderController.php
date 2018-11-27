@@ -60,7 +60,11 @@ class SpiderController extends BaseController
 
         foreach ($target as $key => $value) {
             $parts = parse_url($value['url']);
-            parse_str($parts['query'], $query);
+            if (isset($parts['query'])) {
+                parse_str($parts['query'], $query);
+            } else {
+                $query = [];
+            }
 
             if ($value['method'] == 'get') {
                 $result[$key] = $this->get($value['url'], $query);
