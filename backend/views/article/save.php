@@ -6,6 +6,7 @@ use yii\helpers\Url;
 \backend\assets\AppAsset::addCss($this, ['vue-tags-input.css']);
 \backend\assets\AppAsset::addScript($this, ['tinymce/tinymce.min.js']);
 \backend\assets\AppAsset::addScript($this, ['vue-upload-picker.js']);
+\backend\assets\AppAsset::addScript($this, ['vue-select.js']);
 
 $this->title = 'Article create & update';
 ?>
@@ -27,10 +28,7 @@ $this->title = 'Article create & update';
 
       <div class="form-group col-8">
         <label>Category <small>*</small></label>
-        <select class="form-control" v-model="init.m.fk_category_id">
-          <option value="">--Select category--</option>
-          <option v-for="item in init.category" :value="item.id">{{item.category}}</option>
-        </select>
+        <v-select label="category" v-model="bindCategoryData" :options="init.category"></v-select>
       </div>
 
       <div class="form-group col-8">
@@ -150,6 +148,7 @@ tinymce.init({
 });
 
 Vue.component('tags-input', VueTagsInput.tagsInput);
+Vue.component('v-select', VueSelect.VueSelect);
 const vm = new Vue({
   el: '#app',
   data() {
@@ -161,6 +160,7 @@ const vm = new Vue({
           generate: "<?=Url::to(['upload/ajax-generate'], true)?>",
         },
       },
+      bindCategory: '',
     };
   },
   computed: {
@@ -180,7 +180,15 @@ const vm = new Vue({
     },
     tagsData () {
       return this.init.m.tags.split(",");
-    }
+    },
+    bindCategoryData: {
+      get() {
+        return this.bindCategory;
+      },
+      set(value) {
+        this.init.m.fk_category_id = value ? value.id : '';
+      }
+    },
   },
   methods: {
     tagChange(value) {

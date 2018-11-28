@@ -71,12 +71,17 @@ $this->title = 'Spider List';
               @click="toCopy(item.id)"
               title="Copy">
               <i class="fas fa-copy"></i></i></button>
+
+            <button
+              type="button"
+              class="btn btn-primary btn-sm text-white"
+              @click="openModel(item)">
+              <i class="fas fa-eye"></i></button>
             
             <button
               type="button"
               class="btn btn-danger btn-sm text-white"
-              @click="remove(item.id, inx)"
-              title="添加子规则">
+              @click="remove(item.id, inx)">
               <i class="fas fa-trash"></i></button>
           </td>
         </tr>
@@ -89,6 +94,25 @@ $this->title = 'Spider List';
       </div>
     </div>
   </div>
+
+  <!-- Spider data modal -->
+  <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{currentItem.title}} <small>Spider data</small></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <pre class="bg-dark text-white p-2"><code>{{toJson(currentItem.data)}}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Spider data modal -->
+
 </div>
 
 <?php $this->beginBlock('js'); ?>
@@ -105,9 +129,13 @@ const vm = new Vue({
           create: "<?=Url::to(['article/save'], true)?>",
         }
       },
+      currentItem: '',
     };
   },
   methods: {
+    toJson(str) {
+      return eval('(' + str + ')');
+    },
     getParentName(parent_id) {
       if (parent_id == 0) return '';
 
@@ -146,6 +174,10 @@ const vm = new Vue({
     },
     toSave(id) {
       window.location = getUrl(this.init.href.create, {rule_id: id});
+    },
+    openModel(item) {
+      $(".bd-example-modal-lg").modal('show');
+      this.currentItem = item;
     },
     remove(id, inx) {
       if (!confirm('Are you sure to delete this item?')) {
