@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "bower-asset/vue": "2.4.*",
         "overtrue/pinyin": "~3.0",
-        "guzzlehttp/guzzle": "6.3.*"
+        "guzzlehttp/guzzle": "6.3.*",
+        "kosinix/grafika": "2.0.8"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

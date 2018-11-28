@@ -45,6 +45,15 @@ $this->title = 'Article create & update';
 
       <div class="form-group col-8">
         <label>Cover</label>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Images content" ref="auto-image-name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @click="generateImage">
+              <i class="fas fa-images"></i> Automatically generate images
+            </button>
+          </div>
+        </div>
+
         <vue-upload-picker
           v-model="init.m.cover"
           post-uri="/upload/ajax-upload"
@@ -148,6 +157,9 @@ const vm = new Vue({
       init: {
         m: <?=Json::encode($m, true)?>,
         category: <?=Json::encode($category, true)?>,
+        href: {
+          generate: "<?=Url::to(['upload/ajax-generate'], true)?>",
+        },
       },
     };
   },
@@ -173,6 +185,23 @@ const vm = new Vue({
   methods: {
     tagChange(value) {
       this.init.m.tags = value.join(",");
+    },
+    generateImage(event) {
+      var imgName = this.$refs['auto-image-name'].value;
+      if (imgName == '') {
+        return false;
+      }
+      
+      var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i> loading...');
+      var _this = this;
+      $.post(this.init.href.generate, {title: imgName}, function (response) {
+        if (response.status) {
+          _this.init.m.cover = response.path;
+        } else {
+          $.alert({message: response.msg});
+        }
+        $btn.loading('reset');
+      });
     },
     save() {
       var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
