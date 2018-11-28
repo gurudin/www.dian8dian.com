@@ -49,7 +49,7 @@ $this->title = 'Spider List';
       </thead>
       <tbody>
         <tr v-for="(item,inx) in init.list">
-          <td>{{getParentName(item.parent_id) == '' ? '' : getParentName(item.parent_id) + '->'}} {{item.title}}</td>
+          <td>{{item.parent_name == '' ? '' : item.parent_name + ' /'}} {{item.title}}</td>
           <td v-html="getStatus(item.status)"></td>
           <td>
             <button

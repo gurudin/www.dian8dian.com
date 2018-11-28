@@ -42,7 +42,8 @@ class UploadController extends BaseController
         $width     = 520;
         $height    = 192;
         $font_size = 40;
-        $font_ttc  = Yii::$app->basePath . '/web/webfonts/LiberationSans-Regular.ttf';
+        $font_ttc  = Yii::$app->basePath . '/web/webfonts/PingFang.ttc';
+        // $font_ttc  = '/System/Library/Fonts/Palatino.ttc';
         $text      = $this->args['title'];
         
         // location
