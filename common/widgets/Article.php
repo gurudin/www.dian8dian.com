@@ -18,7 +18,10 @@ class Article extends Widget
     public function init()
     {
         parent::init();
-
+    }
+ 
+    public function run()
+    {
         $result = '';
         foreach ($this->item as $key => $item) {
             $cover = $item->cover != ''
@@ -28,7 +31,7 @@ class Article extends Widget
                         'alt'   => $item->title,
                         'title' => $item->title,
                     ]),
-                    Url::to(['article', 'id' => $item->id]), // TODO:
+                    Url::to(["/article/{$item->id}/{$item->title}"]),
                     []
                 )
                 : '';
@@ -49,7 +52,7 @@ class Article extends Widget
 
             $title = Html::a(
                 Html::tag('h6', $item->title, ['class' => 'card-title']),
-                Url::to(['article', 'id' => $item->id]), // TODO:
+                Url::to(["/article/{$item->id}/{$item->title}"]),
                 [
                     'class' => 'btn-link text-info',
                     'alt'   => $item->title,
@@ -84,36 +87,6 @@ class Article extends Widget
             $result .= $tmp_card;
         }
 
-        echo $result;
-    }
-
-    private function rederA(string $tag, array $options = [])
-    {
-
-    }
-
-    private function renderP(string $tag, array $options = [])
-    {
-        return Html::tag('p', $tag, $options);
-    }
-
-    private function renderH5(string $tag, array $options = [])
-    {
-        return Html::tag('h5', $tag, $options);
-    }
-
-    private function renderDiv(string $tag, array $options = [])
-    {
-        return Html::tag('div', $tag, $options);
-    }
-
-    private function renderImg(string $src, array $options = [])
-    {
-        return Html::img(Yii::$app->params['imgUrl'] . $src, $options);
-    }
- 
-    public function run()
-    {
-        // return Html::decode($this->setMenu());
+        return Html::decode($result);
     }
 }

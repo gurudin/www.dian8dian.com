@@ -46,7 +46,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'nav/<menu>' => 'nav/index',
+                '/nav/<menu>' => 'nav/index',
+                '/article/<id>/<title>' => 'article/detail',
             ],
         ],
     ],
