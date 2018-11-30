@@ -76,6 +76,28 @@ class menu extends Component
     }
 
     /**
+     * Get category by parent id.
+     *
+     * @param string $category
+     */
+    public static function children(string $category)
+    {
+        $children = [];
+        $current  = (new self)->getCategory(['category' => $category]);
+        if (empty($current)) {
+            return $children;
+        }
+        
+        foreach ((new self)->category as $key => $item) {
+            if ($item->parent_id == $current->id) {
+                $children[] = $item;
+            }
+        }
+
+        return $children;
+    }
+
+    /**
      * Get category title.
      *
      * @param array ['alias' => 'js']

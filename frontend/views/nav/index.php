@@ -3,9 +3,13 @@
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-  <nav aria-label="breadcrumb">
+  <!-- <nav aria-label="breadcrumb">
     <?=common\widgets\Breadcrumb::widget(['item' => Yii::$app->menu::routes()])?>
-  </nav>
+  </nav> -->
+
+  <div class="rounded shadow p-3 mb-3 bg-light">
+    <?=common\widgets\Tags::widget(['item' => Yii::$app->menu::children(Yii::$app->menu::routes()[1]['title'])])?>
+  </div>
 
   <div class="card-columns column4">
     <?=common\widgets\Article::widget(['item' => $list])?>
