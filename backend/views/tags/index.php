@@ -2,8 +2,6 @@
 use yii\helpers\Json;
 use yii\helpers\Url;
 
-\backend\assets\AppAsset::addScript($this, ['vue-toggle-button.min.js']);
-
 $this->title = 'Tags List';
 ?>
 

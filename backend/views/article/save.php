@@ -72,11 +72,7 @@ $this->title = 'Article create & update';
 
       <div class="form-group col-8">
         <label>Enter tags</label>
-        <tags-input
-          label-style="secondary"
-          :data-value="tagsData"
-          :on-change="tagChange"
-          ref="tags"></tags-input>
+        <v-select multiple v-model="bindTags" label="label" :options="tagsData"></v-select>
       </div>
 
       <div class="form-group col-8">
@@ -158,9 +154,12 @@ const vm = new Vue({
         category: <?=Json::encode($category, true)?>,
         href: {
           generate: "<?=Url::to(['upload/ajax-generate'], true)?>",
+          tags: "<?=Url::to(['article/ajax-get-tags'], true)?>",
         },
       },
+      tags: [],
       bindCategory: '',
+      bindTags: [],
     };
   },
   computed: {
@@ -179,7 +178,15 @@ const vm = new Vue({
       return true;
     },
     tagsData () {
-      return this.init.m.tags.split(",");
+      var data = [];
+      this.tags.forEach(row =>{
+        data.push({
+          title: row.title,
+          label: row.title + ' ' + row.alias
+        });
+      });
+
+      return data;
     },
     bindCategoryData: {
       get() {
@@ -187,12 +194,60 @@ const vm = new Vue({
       },
       set(value) {
         this.init.m.fk_category_id = value ? value.id : '';
+        this.getTags();
       }
     },
   },
   methods: {
-    tagChange(value) {
-      this.init.m.tags = value.join(",");
+    getTags() {
+      if (this.init.m.fk_category_id == '') {
+        return false;
+      }
+
+      var tmpCategory = [];
+      this.init.category.forEach(row =>{
+        if (row.id == this.init.m.fk_category_id) {
+          tmpCategory = row;
+        }
+      });
+      if (tmpCategory.parent_id != 0) {
+        while(1) {
+          this.init.category.forEach(row =>{
+            if (row.id == tmpCategory.parent_id) {
+              tmpCategory = row;
+            }
+          });
+          if (tmpCategory.parent_id == 0) {
+            break;
+          }
+        }
+      }
+      
+      var _this = this;
+      $.post(this.init.href.tags, {
+        "<?= Yii::$app->request->csrfParam; ?>": "<?= Yii::$app->request->csrfToken; ?>",
+        fk_category_id: tmpCategory.id
+      }, function (response) {
+        _this.tags = response.data;
+
+        if (_this.init.m.tags != '') {
+          
+          var data = [];
+          var arrTags = _this.init.m.tags.split(",");
+          _this.tags.forEach(tags =>{
+            arrTags.forEach(row =>{
+              if (tags.title == row) {
+                data.push({
+                  title: tags.title,
+                  label: tags.title + ' ' + tags.alias
+                });
+              }
+            });
+          });
+
+          _this.bindTags = data;
+        }
+      });
     },
     generateImage(event) {
       var imgName = this.$refs['auto-image-name'].value;
@@ -213,6 +268,13 @@ const vm = new Vue({
     },
     save() {
       var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
+
+      var arrTags = [];
+      this.bindTags.forEach(row =>{
+        arrTags.push(row.title);
+      });
+      this.init.m.tags = arrTags.join(",") != '' ? arrTags.join(",") : '';
+
       $.post("<?=Url::to(['/article/ajax-save'])?>", {
         data: this.init.m
       }, function (response) {
@@ -224,6 +286,15 @@ const vm = new Vue({
         }
       });
     },
+  },
+  created() {
+    if (this.init.m.fk_category_id != '') {
+      this.init.category.forEach(row =>{
+        if (row.id == this.init.m.fk_category_id) {
+          this.bindCategory = row;
+        }
+      });
+    }
   }
 });
 </script>

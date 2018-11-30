@@ -6,6 +6,7 @@ use Overtrue\Pinyin\Pinyin;
 use common\models\Category;
 use common\models\Article;
 use common\models\SpiderRule;
+use common\models\Tags;
 
 class ArticleController extends BaseController
 {
@@ -68,6 +69,24 @@ class ArticleController extends BaseController
             'm' => $m,
             'category' => Category::getAll(),
         ]);
+    }
+
+    /**
+     * Ajax get tags.
+     */
+    public function actionAjaxGetTags()
+    {
+        if ($this->args['fk_category_id'] == '') {
+            return ['status' => true, 'msg' => 'success', 'data' => []];
+        }
+
+        $res_tags = Tags::getAll(['fk_category_id' => $this->args['fk_category_id']], 500);
+
+        return [
+            'status' => true,
+            'msg'    => 'success',
+            'data'   => $res_tags['list']
+        ];
     }
 
     /**
