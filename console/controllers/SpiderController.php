@@ -5,6 +5,8 @@ use yii\console\Controller;
 use yii\helpers\Console;
 use common\models\SpiderRule;
 use common\models\Article;
+use common\models\Tags;
+use Overtrue\Pinyin\Pinyin;
 
 /**
  * Batch spider.
@@ -37,6 +39,31 @@ class SpiderController extends Controller
             default:
                 Console::output(Console::ansiFormat("No method found", [Console::FG_RED]));
                 break;
+        }
+    }
+
+    /**
+     * 批量生产tags
+     */
+    public function actionTags()
+    {
+        $pinyin = new Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
+        $list   = Article::find()->select('tags')->all();
+
+        foreach ($list as $item) {
+            $arr = explode(",", $item->tags);
+            foreach ($arr as $tag) {
+                if (!empty($tag)) {
+                    $count = Tags::find()->where(['title' => $tag])->count();
+                    if ($count == 0) {
+                        $m = new Tags;
+                        $m->fk_category_id = $this->spider_id;
+                        $m->title          = $tag;
+                        $m->alias          = $pinyin->permalink($tag, '');
+                        $m->save();
+                    }
+                }
+            }
         }
     }
 

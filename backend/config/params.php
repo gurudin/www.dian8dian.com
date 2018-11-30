@@ -3,6 +3,15 @@ return [
     'adminEmail' => 'admin@example.com',
     'nav' => [
         [
+            'icon'  => 'fas fa-tags',
+            'label' => 'Tags',
+            'href'  => '#',
+            'open'  => true,
+            'child' => [
+                ['label' => 'All tags', 'href' => '/tags/index'],
+            ]
+        ],
+        [
             'icon'  => 'fas fa-sliders-h',
             'label' => 'Menu',
             'href'  => '#',

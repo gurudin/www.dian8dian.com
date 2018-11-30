@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "category".
@@ -92,5 +93,40 @@ class Category extends \yii\db\ActiveRecord
     public static function getCategoryById(int $id)
     {
         return static::find()->where(['id' => $id])->one();
+    }
+
+    /**
+     * 扩展类别表字段
+     *
+     * @param array $oriArray 需扩展数组
+     * @param string $key 查询字段
+     * @param array $fields 扩展字段
+     *
+     * @return array
+     */
+    public static function extendCategory(array $oriArray, string $key = 'fk_category_id', array $fields = [])
+    {
+        $oriArray = ArrayHelper::toArray($oriArray);
+        $columns  = $fields;
+        if (!in_array('id', $columns)) {
+            array_push($columns, 'id');
+        }
+
+        $category_ids = array_map('intval', array_values(array_filter(array_column($oriArray, $key))));
+        $category_ids = array_unique($category_ids);
+
+        $queryResp = static::find()->select($columns)->where(['id' => $category_ids])->asArray()->all();
+        foreach ($oriArray as &$item) {
+            foreach ($queryResp as $res) {
+                if ($res['id'] == $item[$key]) {
+                    foreach ($fields as $field) {
+                        $item[$field] = $res[$field];
+                    }
+                }
+            }
+        }
+        unset($item);
+
+        return $oriArray;
     }
 }
