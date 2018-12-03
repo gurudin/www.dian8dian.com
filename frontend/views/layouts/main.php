@@ -19,7 +19,7 @@ frontend\assets\AppAsset::register($this);
 
 <header class="w-100 border border-muted border-top-0 border-left-0 border-right-0">
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="/">Widget</a>
+    <a class="navbar-brand" href="/"><img src="/images/logo.png" width="27"></a>
 
     <div class="collapse navbar-collapse">
       <?=common\widgets\Menu::widget(['item' => Yii::$app->menu->nav])?>
@@ -33,7 +33,7 @@ frontend\assets\AppAsset::register($this);
 
 <footer class="w-100 bg-secondary">
   <div class="top-footer"></div>
-  <div class="bottom-footer bg-dark text-center"><small class="text-muted">© Fonticons, Inc.</small></div>
+  <div class="bottom-footer bg-dark text-center"><small class="text-muted">© Inc.</small></div>
 </footer>
 <?php $this->endBody() ?>
 </body>

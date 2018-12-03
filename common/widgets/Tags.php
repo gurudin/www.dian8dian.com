@@ -32,16 +32,27 @@ class Tags extends Widget
         $result = '';
         foreach ($this->item as $inx => $item) {
             if ($item->alias == Yii::$app->request->get('tag', '')) {
-                $result .= Html::tag('span', $item->title, ['class' => 'btn text-muted active']);
+                $result .= Html::tag(
+                    'span',
+                    $item->title,
+                    [
+                        'class' => 'btn text-muted active',
+                        'title' => $item->title,
+                        'alt'   => $item->title
+                    ]
+                );
             } else {
                 $params[0]     = $url_arr['path'];
                 $params['tag'] = $item['alias'];
 
                 $result .= Html::a(
                     $item->title,
-                    // Url::to(['nav/' . $item['alias']]),
                     Url::to($params),
-                    ['class' => 'btn btn-link text-info']
+                    [
+                        'class' => 'btn btn-link text-info',
+                        'title' => $item->title,
+                        'alt'   => $item->title
+                    ]
                 );
             }
         }

@@ -111,19 +111,16 @@ class Article extends \yii\db\ActiveRecord
     /**
      * Get article by category id.
      *
-     * @param array $categorys
+     * @param array $where
      *
      * @return array ['list' => list, 'page' => page]
      */
-    public static function getArticleByCategoryIds(array $categorys = [])
+    public static function getArticleByCategoryIds(array $where = [])
     {
-        if (empty($categorys)) {
-            $where = [];
-        } else {
-            $where = ['in', 'fk_category_id', $categorys];
+        $query = static::find()->where(['status' => 1]);
+        foreach ($where as $key => $value) {
+            $query = $query->andWhere($value);
         }
-
-        $query = static::find()->where($where)->andWhere(['status' => 1]);
         $count = $query->count();
 
         $pagination = new Pagination(['totalCount' => $count, 'defaultPageSize' => 20]);

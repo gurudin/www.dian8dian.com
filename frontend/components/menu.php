@@ -39,7 +39,7 @@ class menu extends Component
         $routes = [];
         $tmp_arr = explode('?', substr(Yii::$app->request->url, 1, strlen(Yii::$app->request->url)));
         $route_arr = explode('/', $tmp_arr[0]);
-        
+
         if ($route_arr[0] == '' || ($route_arr[0] == 'site' && $route_arr[1] == 'index')) {
             $routes[] = $home_route;
         }
@@ -96,6 +96,24 @@ class menu extends Component
         }
 
         return $children;
+    }
+
+    /**
+     * Get one category.
+     *
+     * @param array ['alias' => 'js]
+     *
+     * @return array $category
+     */
+    public static function one(array $where)
+    {
+        foreach ((new self)->category as $item) {
+            if ($item[array_keys($where)[0]] == array_values($where)[0]) {
+                return $item;
+            }
+        }
+
+        return [];
     }
 
     /**
