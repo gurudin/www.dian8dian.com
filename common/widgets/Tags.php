@@ -20,19 +20,28 @@ class Tags extends Widget
         parent::init();
     }
     
-    // <span class="btn text-success active">Primary link</span>
-    // <a href="#" class="btn btn-link text-secondary">Link</a>
     public function run()
     {
+        $url_arr = parse_url(Yii::$app->request->url);
+        if (isset($url_arr['query'])) {
+            parse_str($url_arr['query'], $params);
+        } else {
+            $params = [];
+        }
+        
         $result = '';
         foreach ($this->item as $inx => $item) {
-            if ($item->alias == Yii::$app->request->get('menu')) {
-                $result .= Html::tag('span', $item->category, ['class' => 'btn text-muted active']);
+            if ($item->alias == Yii::$app->request->get('tag', '')) {
+                $result .= Html::tag('span', $item->title, ['class' => 'btn text-muted active']);
             } else {
+                $params[0]     = $url_arr['path'];
+                $params['tag'] = $item['alias'];
+
                 $result .= Html::a(
-                    $item->category,
-                    Url::to(['nav/' . $item['alias']]),
-                    ['class' => 'btn btn-link text-primary']
+                    $item->title,
+                    // Url::to(['nav/' . $item['alias']]),
+                    Url::to($params),
+                    ['class' => 'btn btn-link text-info']
                 );
             }
         }

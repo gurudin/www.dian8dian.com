@@ -37,8 +37,9 @@ class menu extends Component
     {
         $home_route = ['uri' => '/', 'title' => '首页'];
         $routes = [];
-
-        $route_arr = explode('/', substr(Yii::$app->request->url, 1, strlen(Yii::$app->request->url)));
+        $tmp_arr = explode('?', substr(Yii::$app->request->url, 1, strlen(Yii::$app->request->url)));
+        $route_arr = explode('/', $tmp_arr[0]);
+        
         if ($route_arr[0] == '' || ($route_arr[0] == 'site' && $route_arr[1] == 'index')) {
             $routes[] = $home_route;
         }
@@ -46,14 +47,14 @@ class menu extends Component
         /** Nav */
         if ($route_arr[0] == 'nav') {
             $res = (new self)->getCategory(['alias' => $route_arr[1]]);
-            $routes[] = ['uri' => "/{$route_arr[0]}/$route_arr[1]", 'title' => $res->category];
+            $routes[] = ['uri' => "/{$route_arr[0]}/$route_arr[1]", 'title' => $res->category, 'id' => $res->id];
 
             if ($res->parent_id != 0) {
                 while (true) {
                     $tmp_res = (new self)->getCategory(['id' => $res->parent_id]);
                     array_unshift(
                         $routes,
-                        ['uri' => "/{$route_arr[0]}/{$tmp_res->alias}", 'title' => $tmp_res->category]
+                        ['uri' => "/{$route_arr[0]}/{$tmp_res->alias}", 'title' => $tmp_res->category, 'id' => $tmp_res->id]
                     );
 
                     if ($tmp_res->parent_id == 0) {

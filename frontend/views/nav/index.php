@@ -1,5 +1,8 @@
 <?php
 
+backend\assets\AppAsset::addCss($this, ['solid.css']);
+backend\assets\AppAsset::addCss($this, ['fontawesome.min.css']);
+
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
@@ -8,7 +11,10 @@ $this->title = 'My Yii Application';
   </nav> -->
 
   <div class="rounded shadow p-3 mb-3 bg-light">
-    <?=common\widgets\Tags::widget(['item' => Yii::$app->menu::children(Yii::$app->menu::routes()[1]['title'])])?>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#"><i class="fas fa-tags" style="color:#748ffc"></i> 标签</a>
+    </nav>
+    <?=common\widgets\Tags::widget(['item' => $tags])?>
   </div>
 
   <div class="card-columns column4">
