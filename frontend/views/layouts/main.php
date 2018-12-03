@@ -36,6 +36,11 @@ frontend\assets\AppAsset::register($this);
   <div class="bottom-footer bg-dark text-center"><small class="text-muted">© Inc.</small></div>
 </footer>
 <?php $this->endBody() ?>
+
+<?php if (isset($this->blocks['js'])): ?>
+  <?= $this->blocks['js'] ?>
+<?php endif; ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

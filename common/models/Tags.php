@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tags".
@@ -78,5 +79,39 @@ class Tags extends \yii\db\ActiveRecord
             ->all();
 
         return ['list' => $list, 'page' => $pagination];
+    }
+
+    /**
+     * 扩展类别表字段
+     *
+     * @param array $oriArray 需扩展数组
+     * @param string $key 查询字段
+     * @param array $fields 扩展字段
+     *
+     * @return array
+     */
+    public static function extendTags(array $oriArray, string $key = 'title', array $fields = [])
+    {
+        $oriArray = ArrayHelper::toArray($oriArray);
+        $columns  = $fields;
+
+        if (!in_array('title', $columns)) {
+            array_push($columns, 'title');
+        }
+
+        $titles    = array_unique(array_values(array_filter(array_column($oriArray, $key))));
+        $queryResp = static::find()->select($columns)->where([$key => $titles])->asArray()->all();
+        foreach ($oriArray as &$item) {
+            foreach ($queryResp as $res) {
+                if ($res['title'] == $item[$key]) {
+                    foreach ($fields as $field) {
+                        $item[$field] = $res[$field];
+                    }
+                }
+            }
+        }
+        unset($item);
+
+        return $oriArray;
     }
 }
