@@ -15,15 +15,12 @@ $this->title = 'My Yii Application';
     <?=common\widgets\Article::widget(['item' => $article['list']])?>
   </div>
 
-  <div>
-    <div class="float-left"></div>
-    <div class="float-right">
-      <?= common\widgets\LinkPager::widget([
-        'pagination'    => $article['page'],
-        'prevPageLabel' => '&laquo;',
-        'nextPageLabel' => '&raquo;'
-      ]); ?>
-    </div>
-  </div>
-  
+  <nav aria-label="Page navigation">
+    <?= common\widgets\LinkPager::widget([
+      'pagination'    => $article['page'],
+      'prevPageLabel' => '&laquo;',
+      'nextPageLabel' => '&raquo;',
+      'options'       => ['class' => 'pagination pagination-sm justify-content-end']
+    ]); ?>
+  </nav>
 </div>

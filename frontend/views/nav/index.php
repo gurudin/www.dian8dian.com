@@ -24,14 +24,12 @@ $this->title = Yii::$app->menu->current->category . ' ' . Yii::$app->menu->curre
     <?=common\widgets\Article::widget(['item' => $list])?>
   </div>
 
-  <div>
-    <div class="float-left"></div>
-    <div class="float-right">
-      <?= common\widgets\LinkPager::widget([
-        'pagination'    => $page,
-        'prevPageLabel' => '&laquo;',
-        'nextPageLabel' => '&raquo;'
-      ]); ?>
-    </div>
-  </div>
+  <nav aria-label="Page navigation">
+    <?= common\widgets\LinkPager::widget([
+      'pagination'    => $page,
+      'prevPageLabel' => '&laquo;',
+      'nextPageLabel' => '&raquo;',
+      'options'       => ['class' => 'pagination pagination-sm justify-content-end']
+    ]); ?>
+  </nav>
 </div>

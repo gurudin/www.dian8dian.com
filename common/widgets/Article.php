@@ -42,7 +42,7 @@ class Article extends Widget
                     'small',
                     Html::a(
                         '<cite title="Source Title">' . $item->author . '</cite>',
-                        Url::to(['search', 'author' => $item->author]),
+                        Url::to(['/search', 'author' => $item->author]),
                         ['class' => 'btn-link text-muted font-italic']
                     ),
                     ['class' => 'text-muted']
@@ -69,7 +69,7 @@ class Article extends Widget
             if ($item->tags != '') {
                 $tagHtml = '';
                 foreach ($item->tags as $key => $tag) {
-                    $tagHtml .= ' ' . Html::a($tag, Url::to(['search', 'tag' => $tag]), ['class' => 'text-info badge badge-light p-2']);
+                    $tagHtml .= ' ' . Html::a($tag, Url::to(['/search', 'tag' => $tag]), ['class' => 'text-info badge badge-light p-2']);
                 }
                 $tags = Html::tag(
                     'p',

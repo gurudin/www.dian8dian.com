@@ -48,6 +48,7 @@ return [
             'rules' => [
                 '/nav/<menu>' => 'nav/index',
                 '/article/<id>/<title>' => 'article/detail',
+                '/search' => 'nav/search',
             ],
         ],
     ],

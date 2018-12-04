@@ -18,4 +18,13 @@ class SiteController extends BaseController
     {
         return $this->render('index', ['article' => \common\models\Article::getArticleByCategoryIds()]);
     }
+
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
+        ];
+    }
 }
