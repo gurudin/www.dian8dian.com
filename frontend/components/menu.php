@@ -24,10 +24,18 @@ class menu extends Component
      */
     public $category;
 
+    /**
+     * 当前分类
+     *
+     * @var array
+     */
+    public $current;
+
     public function __construct()
     {
         $this->category = Category::getAll();
         $this->setNav();
+        $this->getCurrent();
     }
 
     /**
@@ -140,6 +148,19 @@ class menu extends Component
         foreach ($this->category as $key => $item) {
             if ($item->enabled == 1) {
                 $this->nav[] = $item;
+            }
+        }
+    }
+
+    /**
+     * Current nav
+     */
+    private function getCurrent()
+    {
+        $current = Yii::$app->request->getPathInfo();
+        foreach ($this->category as $key => $item) {
+            if (in_array($current, ['nav/' . $item['alias']])) {
+                $this->current = $item;
             }
         }
     }

@@ -10,4 +10,5 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     ],
+    'language'=>'zh_CN'
 ];

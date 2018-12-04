@@ -4,6 +4,14 @@ use yii\helpers\Url;
 backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css', 'prism.css']);
 backend\assets\AppAsset::addScript($this, ['prism.js']);
 
+$this->registerMetaTag([
+  'name'    => 'description',
+  'content' => $article['remark'] . ' ' . $article['title_search']
+]);
+$this->registerMetaTag([
+  'name' => 'keywords',
+  'keywords' => $article['keywords']
+]);
 $this->title = $article['category']['category'] . ' ' . $article['title'];
 ?>
 <div class="site-index">

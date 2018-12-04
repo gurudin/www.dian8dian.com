@@ -1,15 +1,18 @@
 <?php
 
-backend\assets\AppAsset::addCss($this, ['solid.css']);
-backend\assets\AppAsset::addCss($this, ['fontawesome.min.css']);
+backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css']);
 
-$this->title = 'My Yii Application';
+$this->registerMetaTag([
+  'name' => 'description',
+  'content' => Yii::$app->menu->current->category . ' ' . Yii::$app->menu->current->remark
+]);
+$this->registerMetaTag([
+  'name' => 'keywords',
+  'keywords' => Yii::$app->menu->current->search_text
+]);
+$this->title = Yii::$app->menu->current->category . ' ' . Yii::$app->menu->current->remark;
 ?>
 <div class="site-index">
-  <!-- <nav aria-label="breadcrumb">
-    <?=common\widgets\Breadcrumb::widget(['item' => Yii::$app->menu::routes()])?>
-  </nav> -->
-
   <div class="rounded shadow p-3 mb-3 bg-light">
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="#"><i class="fas fa-tags" style="color:#748ffc"></i> 标签</a>

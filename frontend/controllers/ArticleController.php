@@ -25,13 +25,22 @@ class ArticleController extends BaseController
                 ];
             }
         }
+        $info['keywords'] = $info['title_search'];
         if ($info['tags'] != '') {
-            $tags = explode(",", $info['tags']);
+            $tags         = explode(",", $info['tags']);
+            $keywords     = [];
             $info['tags'] = [];
+
             foreach ($tags as $tag) {
                 $info['tags'][] = ['title' => $tag];
             }
             $info['tags'] = Tags::extendTags($info['tags'], 'title', ['alias']);
+
+            foreach ($info['tags'] as $key => $value) {
+                $keywords[] = $value['title'];
+                $keywords[] = $value['alias'];
+            }
+            $info['keywords'] = implode(",", $keywords);
         }
         
         return $this->render('detail', [
