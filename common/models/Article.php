@@ -84,16 +84,28 @@ class Article extends \yii\db\ActiveRecord
 
     /**
      * Get all
+     *
+     * @param array $where
+     * @param array $fields
+     *
+     * @example
+     * ```php
+     * $where = ['status' => 1]
+     * $fields = ['id', 'title']
+     * ```
+     *
+     * @return array
      */
-    public static function getAll(array $where = [])
+    public static function getAll(array $where = [], array $fields = [], int $defaultPageSize = 20)
     {
         $query = static::find()->where($where);
         $count = $query->count();
 
-        $pagination = new Pagination(['totalCount' => $count]);
+        $pagination = new Pagination(['totalCount' => $count, 'defaultPageSize' => $defaultPageSize]);
         
         $list = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->select($fields)
             ->orderBy('id DESC')
             ->all();
 

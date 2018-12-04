@@ -82,9 +82,9 @@ class Category extends \yii\db\ActiveRecord
     /**
      * get All
      */
-    public static function getAll()
+    public static function getAll(array $where = [])
     {
-        return static::find()->orderBy('weight desc')->all();
+        return static::find()->where($where)->orderBy('weight desc')->all();
     }
 
     /**

@@ -3,10 +3,19 @@ return [
     'adminEmail' => 'admin@example.com',
     'nav' => [
         [
+            'icon'  => 'fas fa-globe',
+            'label' => 'Global',
+            'href'  => '#',
+            'open'  => true,
+            'child' => [
+                ['label' => 'Sitemap', 'href' => '/index/sitemap'],
+            ],
+        ],
+        [
             'icon'  => 'fas fa-tags',
             'label' => 'Tags',
             'href'  => '#',
-            'open'  => true,
+            'open'  => false,
             'child' => [
                 ['label' => 'All tags', 'href' => '/tags/index'],
             ]

@@ -33,7 +33,9 @@ frontend\assets\AppAsset::register($this);
 
 <footer class="w-100 bg-secondary">
   <div class="top-footer"></div>
-  <div class="bottom-footer bg-dark text-center"><small class="text-muted">© Inc.</small></div>
+  <div class="bottom-footer bg-dark text-center">
+    <small class="text-muted">&copy; 2018, Inc.</small>
+  </div>
 </footer>
 <?php $this->endBody() ?>
 
