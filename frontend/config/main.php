@@ -47,8 +47,12 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '/nav/<menu>' => 'nav/index',
-                '/search' => 'nav/search',
                 '/sitemap.xml' => 'site/sitemap',
+                [
+                    'route'    => 'nav/search',
+                    'pattern'  => '/search/<keywords>',
+                    'defaults' => ['keywords' => '']
+                ],
                 [
                     'route'    => 'article/detail',
                     'pattern'  => '/article/<id>/<title>',

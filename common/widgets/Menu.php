@@ -39,7 +39,7 @@ class Menu extends Widget
         $retTag = $this->renderLi($this->renderA('首页', '/'), $homeCls);
         if (!empty($this->item)) {
             foreach ($this->item as $key => $value) {
-                $tmp = $this->renderA($value['category'], Url::to(['nav/index', 'menu' => $value['alias']], true));
+                $tmp = $this->renderA($value['category'], Url::toRoute(['nav/index', 'menu' => $value['alias']], true));
 
                 $tmpCls = in_array($this->current, ['nav/' . $value['alias']]) ? 'active' : '';
                 $retTag .= $this->renderLi($tmp, $tmpCls);

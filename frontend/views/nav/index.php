@@ -13,9 +13,9 @@ $this->registerMetaTag([
 $this->title = Yii::$app->menu->current->category . ' ' . Yii::$app->menu->current->remark;
 ?>
 <div class="site-index">
-  <div class="rounded shadow p-3 mb-3 bg-light">
-    <nav class="navbar navbar-light bg-light">
-      <a class="navbar-brand" href="#"><i class="fas fa-tags" style="color:#748ffc"></i> 标签</a>
+  <div class="rounded shadow p-3 mb-3">
+    <nav class="navbar navbar-light">
+      <span class="navbar-brand" style="color: #4aa0f8;"><i class="fas fa-tags"></i> 标签</span>
     </nav>
     <?=common\widgets\Tags::widget(['item' => $tags])?>
   </div>

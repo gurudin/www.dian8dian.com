@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Article;
 use common\models\Tags;
+use yii\helpers\Url;
 
 class NavController extends BaseController
 {
@@ -40,5 +41,15 @@ class NavController extends BaseController
             'page' => $article_res['page'],
             'tags' => $tags_res['list']
         ]);
+    }
+
+    /**
+     * Search
+     */
+    public function actionSearch()
+    {
+        print_r(Yii::$app->request->get());
+        echo Url::toRoute(['nav/search', 'keywords' => 1], true);
+        die();
     }
 }

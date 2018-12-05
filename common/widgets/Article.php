@@ -31,7 +31,7 @@ class Article extends Widget
                         'alt'   => $item->title,
                         'title' => $item->title,
                     ]),
-                    Url::to(["/article/{$item->id}/{$item->title}"]),
+                    Url::toRoute(['article/detail', 'id' => $item->id, 'title' => $item->title], true),
                     []
                 )
                 : '';
@@ -42,7 +42,7 @@ class Article extends Widget
                     'small',
                     Html::a(
                         '<cite title="Source Title">' . $item->author . '</cite>',
-                        Url::to(['/search', 'author' => $item->author]),
+                        Url::toRoute(['nav/search', 'keywords' => 'author-' . $item->author], true),
                         ['class' => 'btn-link text-muted font-italic']
                     ),
                     ['class' => 'text-muted']
@@ -52,7 +52,7 @@ class Article extends Widget
 
             $title = Html::a(
                 Html::tag('h6', $item->title, ['class' => 'card-title']),
-                Url::to(["/article/{$item->id}/{$item->title}"]),
+                Url::toRoute(['article/detail', 'id' => $item->id, 'title' => $item->title], true),
                 [
                     'class' => 'btn-link text-info',
                     'alt'   => $item->title,
@@ -69,7 +69,11 @@ class Article extends Widget
             if ($item->tags != '') {
                 $tagHtml = '';
                 foreach ($item->tags as $key => $tag) {
-                    $tagHtml .= ' ' . Html::a($tag, Url::to(['/search', 'tag' => $tag]), ['class' => 'text-info badge badge-light p-2']);
+                    $tagHtml .= ' ' . Html::a(
+                        $tag,
+                        Url::toRoute(['nav/search', 'keywords' => 'tag-' . $tag], true),
+                        ['class' => 'text-info badge badge-light p-2']
+                    );
                 }
                 $tags = Html::tag(
                     'p',
