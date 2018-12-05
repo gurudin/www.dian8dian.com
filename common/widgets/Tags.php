@@ -49,16 +49,6 @@ class Tags extends Widget
      */
     private function search()
     {
-        $badges = [
-            'primary',
-            'secondary',
-            'success',
-            'danger',
-            'warning',
-            'info',
-            'light',
-            'dark'
-        ];
         $result = '';
 
         foreach ($this->item as $key => $tag) {
