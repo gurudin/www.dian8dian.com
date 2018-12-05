@@ -25,6 +25,16 @@ class TagsController extends BaseController
     }
 
     /**
+     * Ajax recommed.
+     */
+    public function actionAjaxRecommend()
+    {
+        return Tags::updateAll(['recommend' => $this->args['recommend']], ['id' => $this->args['id']])
+            ? ['status' => true, 'msg' => 'success']
+            : ['status' => false, 'msg' => 'Failed to recommend.'];
+    }
+
+    /**
      * Ajax save.
      */
     public function actionAjaxSave()

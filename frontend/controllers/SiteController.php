@@ -32,9 +32,11 @@ class SiteController extends BaseController
         $articles = Article::getArticleByCategoryIds();
 
         // Tags
+        $tags = Tags::getAll(['recommend' => 1], 5);
 
         return $this->render('index', [
             'article' => $articles,
+            'tags'    => $tags['list'],
         ]);
     }
 

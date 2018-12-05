@@ -31,7 +31,7 @@ class Tags extends \yii\db\ActiveRecord
     {
         return [
             [['fk_category_id', 'title', 'alias'], 'required'],
-            [['fk_category_id'], 'integer'],
+            [['fk_category_id', 'recommend'], 'integer'],
             [['title'], 'string', 'max' => 50],
             [['alias'], 'string', 'max' => 150],
         ];
@@ -47,6 +47,7 @@ class Tags extends \yii\db\ActiveRecord
             'fk_category_id' => '类别外键',
             'title' => '标题',
             'alias' => '别名',
+            'recommend' => '是否推荐'
         ];
     }
 
@@ -57,7 +58,11 @@ class Tags extends \yii\db\ActiveRecord
     {
         $m = [];
         foreach ($this->attributeLabels() as $k => $v) {
-            $m[$k] = '';
+            if ($k == 'recommend') {
+                $m[$k] = 0;
+            } else {
+                $m[$k] = '';
+            }
         }
         
         return $m;

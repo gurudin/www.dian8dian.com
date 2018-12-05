@@ -43,6 +43,38 @@ class Tags extends Widget
                 break;
         }
     }
+    
+    /**
+     * Search
+     */
+    private function search()
+    {
+        $badges = [
+            'primary',
+            'secondary',
+            'success',
+            'danger',
+            'warning',
+            'info',
+            'light',
+            'dark'
+        ];
+        $result = '';
+
+        foreach ($this->item as $key => $tag) {
+            $result .= Html::a(
+                $tag['title'],
+                Url::toRoute(['nav/search', 'keywords' => 'tag-' . $tag['title']], true),
+                [
+                    'class' => 'badge p-2 mr-1 badge-light text-info',
+                    'title' => $tag['title'] . ' ' . $tag['alias'],
+                    'alt'   => $tag['title'] . ' ' . $tag['alias'],
+                ]
+            );
+        }
+
+        return Html::decode($result);
+    }
 
     /**
      * Nav

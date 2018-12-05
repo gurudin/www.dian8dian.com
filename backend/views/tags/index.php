@@ -2,6 +2,8 @@
 use yii\helpers\Json;
 use yii\helpers\Url;
 
+\backend\assets\AppAsset::addScript($this, ['vue-toggle-button.min.js']);
+
 $this->title = 'Tags List';
 ?>
 
@@ -38,6 +40,7 @@ $this->title = 'Tags List';
           <th scope="col">Title</th>
           <th scope="col">Category</th>
           <th scope="col">Alias</th>
+          <th scope="col">Recommend</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -48,6 +51,14 @@ $this->title = 'Tags List';
           <td>{{item.title}}</td>
           <td>{{item.category}}</td>
           <td>{{item.alias}}</td>
+          <td>
+            <toggle-button
+              :data="item"
+              v-model="item.recommend"
+              size="sm"
+              :options="options"
+              :before="editEnabled"></toggle-button>
+          </td>
           <td>
             <button
               type="button"
@@ -111,7 +122,7 @@ $this->title = 'Tags List';
 
 <?php $this->beginBlock('js'); ?>
 <script>
-
+Vue.component('toggle-button', VueToggleButton.toggleButton);
 const vm = new Vue({
   el: '#app',
   data() {
@@ -124,12 +135,17 @@ const vm = new Vue({
           index: "<?=Url::to(['/tags/index'], true)?>",
           save: "<?=Url::to(['/tags/ajax-save'], true)?>",
           remove: "<?=Url::to(['/tags/ajax-remove'], true)?>",
+          recommend: "<?=Url::to(['/tags/ajax-recommend'], true)?>",
         },
       },
+      options: [
+        {label: "Top", value: 1, checked: "success"},
+        {label: "Undo", value: 0, checked: "warning"}
+      ],
       keys: {
         categoryId: '',
         search: '',
-      }
+      },
     };
   },
   computed: {
@@ -159,6 +175,20 @@ const vm = new Vue({
       }
 
       $("#saveModal").modal('show');
+    },
+    editEnabled(obj) {
+      console.log(obj);
+      
+      $.post(this.init.href.recommend, {
+        id: obj.data.id,
+        recommend: obj.value
+      }, function (response) {
+        if (response.status) {
+          obj.data.recommend = obj.value;
+        } else {
+          $.alert(response.msg);
+        }
+      });
     },
     remove(event, id, inx) {
       if (!confirm('Are you sure to delete this item?')) {

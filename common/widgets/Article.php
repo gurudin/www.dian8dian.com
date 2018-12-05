@@ -41,9 +41,13 @@ class Article extends Widget
                 Html::tag(
                     'small',
                     Html::a(
-                        '<cite title="Source Title">' . $item->author . '</cite>',
+                        '<cite>' . $item->author . '</cite>',
                         Url::toRoute(['nav/search', 'keywords' => 'author-' . $item->author], true),
-                        ['class' => 'btn-link text-muted font-italic']
+                        [
+                            'class' => 'btn-link text-muted font-italic',
+                            'title' => $item->author,
+                            'alt'   => $item->author,
+                        ]
                     ),
                     ['class' => 'text-muted']
                 ),
@@ -72,7 +76,11 @@ class Article extends Widget
                     $tagHtml .= ' ' . Html::a(
                         $tag,
                         Url::toRoute(['nav/search', 'keywords' => 'tag-' . $tag], true),
-                        ['class' => 'text-info badge badge-light p-2']
+                        [
+                            'class' => 'text-info badge badge-light p-2',
+                            'title' => $tag,
+                            'alt'   => $tag,
+                        ]
                     );
                 }
                 $tags = Html::tag(
