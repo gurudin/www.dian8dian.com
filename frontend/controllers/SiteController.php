@@ -5,6 +5,7 @@ use Yii;
 use yii\helpers\Url;
 use common\models\Category;
 use common\models\Article;
+use common\models\Tags;
 
 /**
  * Site controller
@@ -27,7 +28,14 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->render('index', ['article' => \common\models\Article::getArticleByCategoryIds()]);
+        // Articles
+        $articles = Article::getArticleByCategoryIds();
+
+        // Tags
+
+        return $this->render('index', [
+            'article' => $articles,
+        ]);
     }
 
     /**

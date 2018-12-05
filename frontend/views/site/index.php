@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css']);
 
@@ -11,8 +12,7 @@ $this->title = 'My Yii Application';
   <div class="container">
     <h3 class="display-4">搜索组件</h3>
 
-    <?=Html::beginForm('/search', 'get')?>
-    <div class="input-group mb-5" style="width:600px; margin:0 auto;">
+    <div class="input-group m-auto" style="width:600px;">
         <?=Html::input('text', 'keywords', '', [
           'class' => 'form-control form-control-lg border-right-0',
           'placeholder' => 'Search components...',
@@ -20,13 +20,21 @@ $this->title = 'My Yii Application';
         ])?>
         <div class="input-group-append">
           <span class="input-group-text bg-white">
-            <?=Html::submitButton('<i class="fas fa-search"></i>', ['class' => 'btn btn-primary'])?>
+            <?=Html::button('<i class="fas fa-search"></i>', [
+              'class' => 'btn btn-primary',
+              'name' => 'btn-keywords'
+            ])?>
           </span>
         </div>
     </div>
-    <?=Html::endForm()?>
+
+    <div class="mb-1"></div>
     
-    <p class="lead">We are the people who change the world.</p>
+    <p class="m-auto text-left" style="width:600px;">
+      <a class="badge badge-primary p-2" href="#">图片效果</a>
+    </p>
+    
+    <p class="lead mt-5">We are the people who change the world.</p>
   </div>
 </div>
 <?php $this->endBlock(); ?>
@@ -45,3 +53,27 @@ $this->title = 'My Yii Application';
     ]); ?>
   </nav>
 </div>
+
+<?php $this->beginBlock('js'); ?>
+<script>
+$(function() {
+  var search = function () {
+    if ($("input[name='keywords']").val() == '') {
+      return false;
+    } else {
+      window.location.href = "<?=Url::toRoute(['nav/search'], true)?>/" + $("input[name='keywords']").val();
+    }
+  }
+
+  $("button[name='btn-keywords']").click(() =>{
+    search();
+  });
+  $("input[name='keywords']").keyup(event =>{
+    if (event.which == 13) {
+      search();
+    }
+  });
+  
+});
+</script>
+<?php $this->endBlock(); ?>

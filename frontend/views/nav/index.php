@@ -17,7 +17,7 @@ $this->title = Yii::$app->menu->current->category . ' ' . Yii::$app->menu->curre
     <nav class="navbar navbar-light">
       <span class="navbar-brand" style="color: #4aa0f8;"><i class="fas fa-tags"></i> 标签</span>
     </nav>
-    <?=common\widgets\Tags::widget(['item' => $tags])?>
+    <?=common\widgets\Tags::widget(['item' => $tags, 'mode' => 'nav'])?>
   </div>
 
   <div class="card-columns column4">

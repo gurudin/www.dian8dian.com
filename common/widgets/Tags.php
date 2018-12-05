@@ -15,12 +15,39 @@ class Tags extends Widget
      */
     public $item;
 
+    /**
+     * Mode
+     *
+     * @var string
+     *
+     * @example nav|all|search
+     */
+    public $mode;
+
     public function init()
     {
         parent::init();
     }
     
     public function run()
+    {
+        switch ($this->mode) {
+            case 'nav':
+                return $this->nav();
+                break;
+            case 'search':
+                return $this->search();
+                break;
+            default:
+                return '';
+                break;
+        }
+    }
+
+    /**
+     * Nav
+     */
+    private function nav()
     {
         $url_arr = parse_url(Yii::$app->request->url);
         if (isset($url_arr['query'])) {
