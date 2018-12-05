@@ -27,7 +27,7 @@ class ArticleController extends BaseController
             }
         }
 
-        $result = Article::getAll($where);
+        $result = Article::getAll([$where]);
 
         return $this->render('index', [
             'category' => Category::getAll(),

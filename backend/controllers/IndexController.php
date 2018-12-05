@@ -78,7 +78,7 @@ class IndexController extends BaseController
         }
 
         // Article
-        $article_item = Article::getAll(['status' => 1], ['id', 'title'], 500);
+        $article_item = Article::getAll([['status' => 1]], ['id', 'title'], 500);
         foreach ($article_item['list'] as $key => $article) {
             $maps[] = [
                 'url'      => "{$home}/article/{$article->id}",

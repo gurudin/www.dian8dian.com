@@ -46,10 +46,65 @@ class NavController extends BaseController
     /**
      * Search
      */
-    public function actionSearch()
+    public function actionSearch(string $keywords = '')
     {
-        print_r(Yii::$app->request->get());
-        echo Url::toRoute(['nav/search', 'keywords' => 1], true);
-        die();
+        if ($keywords == '') {
+            return $this->render('search');
+        }
+
+        $modeArray = ['tag', 'author'];
+        $keyArray  = explode("-", $keywords);
+        $fields    = [
+            'id',
+            'fk_category_id',
+            'title',
+            'title_search',
+            'cover',
+            'remark',
+            'tags',
+            'author',
+            'source',
+            'demo',
+            'created_at'
+        ];
+
+        if (count($keyArray) > 1 && in_array($keyArray[0], $modeArray)) {
+            // Tag or Author
+            $mode = $keyArray[0];
+            unset($keyArray[0]);
+            $search_key = implode("-", $keyArray);
+            
+            $where = [];
+            $where[] = ['status' => 1];
+            if ($mode == 'tag') {
+                $where[] = ['like', 'tags', $search_key];
+            }
+            if ($mode == 'author') {
+                $where[] = ['like', 'author', $search_key];
+            }
+
+            $result = Article::getAll(
+                $where,
+                $fields,
+                40,
+                'weight,id DESC'
+            );
+
+            print_r($result);
+        } else {
+            // Keyword
+            $where = [];
+            $where[] = ['status' => 1];
+            $where[] = [
+                'or',
+                ['like', 'title', $keywords],
+                ['like', 'title_search', $keywords],
+                ['like', 'remark', $keywords],
+                ['like', 'content', $keywords]
+            ];
+            $result = Article::getAll($where, $fields, 40, 'weight,id DESC');
+        }
+
+        return $this->render('search', ['list' => $result['list'], 'page' => $result['page']]);
     }
 }

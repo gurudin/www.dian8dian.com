@@ -90,15 +90,22 @@ class Article extends \yii\db\ActiveRecord
      *
      * @example
      * ```php
-     * $where = ['status' => 1]
+     * $where = [['status' => 1], ['like', 'tag' , $tag]]
      * $fields = ['id', 'title']
      * ```
      *
      * @return array
      */
-    public static function getAll(array $where = [], array $fields = [], int $defaultPageSize = 20)
-    {
-        $query = static::find()->where($where);
+    public static function getAll(
+        array $where = [],
+        array $fields = [],
+        int $defaultPageSize = 20,
+        string $order = 'id DESC'
+    ) {
+        $query = static::find();
+        foreach ($where as $key => $value) {
+            $query = $query->andWhere($value);
+        }
         $count = $query->count();
 
         $pagination = new Pagination(['totalCount' => $count, 'defaultPageSize' => $defaultPageSize]);
@@ -106,7 +113,7 @@ class Article extends \yii\db\ActiveRecord
         $list = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->select($fields)
-            ->orderBy('id DESC')
+            ->orderBy($order)
             ->all();
 
         return ['list' => $list, 'page' => $pagination];
@@ -140,7 +147,7 @@ class Article extends \yii\db\ActiveRecord
         $list = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->select(['id','fk_category_id','title','title_search','cover','remark','tags','author','created_at'])
-            ->orderBy('id DESC')
+            ->orderBy('weight,id DESC')
             ->all();
 
         foreach ($list as $key => $item) {

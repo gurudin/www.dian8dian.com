@@ -31,7 +31,7 @@ $this->title = 'My Yii Application';
     <div class="mb-1"></div>
     
     <p class="m-auto text-left" style="width:600px;">
-        <small><?=common\widgets\Tags::widget(['item' => $tags, 'mode' => 'search'])?></small>
+      <small><?=common\widgets\Tags::widget(['item' => $tags, 'mode' => 'search'])?></small>
     </p>
     
     <p class="lead mt-5">We are the people who change the world.</p>

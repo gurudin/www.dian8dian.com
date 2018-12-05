@@ -20,7 +20,7 @@ $this->title = Yii::$app->menu->current->category . ' ' . Yii::$app->menu->curre
     <?=common\widgets\Tags::widget(['item' => $tags, 'mode' => 'nav'])?>
   </div>
 
-  <div class="card-columns column4">
+  <div class="card-columns">
     <?=common\widgets\Article::widget(['item' => $list])?>
   </div>
 
