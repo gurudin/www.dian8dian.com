@@ -76,7 +76,11 @@ class Tags extends \yii\db\ActiveRecord
         $query = static::find()->where($where);
         $count = $query->count();
 
-        $pagination = new Pagination(['totalCount' => $count, 'defaultPageSize' => $defaultPageSize]);
+        $pagination = new Pagination([
+            'totalCount' => $count,
+            'defaultPageSize' => $defaultPageSize,
+            'pageSizeLimit' => [1, $defaultPageSize]
+        ]);
 
         $list = $query->offset($pagination->offset)
             ->limit($pagination->limit)
