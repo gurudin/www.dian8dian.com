@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Url;
 
-backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css', 'prism.css']);
+backend\assets\AppAsset::addCss($this, ['prism.css']);
 backend\assets\AppAsset::addScript($this, ['prism.js']);
 
 $this->registerMetaTag([

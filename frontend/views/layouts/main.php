@@ -24,9 +24,32 @@ frontend\assets\AppAsset::register($this);
     <div class="collapse navbar-collapse">
         <?=common\widgets\Menu::widget(['item' => Yii::$app->menu->nav])?>
     </div>
+    
+    <?php if (in_array(Yii::$app->request->pathInfo, ['', 'site/index'])): ?>
     <span class="navbar-text">
-      Navbar text with an inline element
+      <a class="text-light" href="https://github.com/gurudin/www.dian8dian.com" target="_blank">
+        <i class="fas fa-code-branch"></i>
+      </a>
     </span>
+    <?php else: ?>
+      <form class="form-inline">
+        <div class="input-group input-group-sm">
+          <?= Html::input('text', 'keywords', '', [
+            'class'       => 'form-control border-right-0',
+            'placeholder' => 'Search...',
+            'required'    => 'required'
+          ]) ?>
+          <div class="input-group-append">
+            <span class="input-group-text bg-white">
+              <?=Html::button('<i class="fas fa-search"></i>', [
+                'style' => 'border: none;',
+                'name'  => 'btn-keywords'
+              ])?>
+            </span>
+          </div>
+        </div>
+      </form>
+    <?php endif; ?>
   </nav>
 </header>
 

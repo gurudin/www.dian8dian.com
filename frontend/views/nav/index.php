@@ -1,7 +1,5 @@
 <?php
 
-backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css']);
-
 $this->registerMetaTag([
   'name' => 'description',
   'content' => Yii::$app->menu->current->category . ' ' . Yii::$app->menu->current->remark

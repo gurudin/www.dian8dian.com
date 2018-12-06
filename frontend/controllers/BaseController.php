@@ -10,8 +10,6 @@ class BaseController extends \yii\web\Controller
      */
     public function init()
     {
-        // Yii::$app->menu::children(Yii::$app->menu::routes()[1]['title']);
-        // echo Yii::$app->menu::routes()[1]['title'];
     }
 
     /**

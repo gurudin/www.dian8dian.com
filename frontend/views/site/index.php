@@ -2,8 +2,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-backend\assets\AppAsset::addCss($this, ['solid.css', 'fontawesome.min.css']);
-
 $this->title = 'My Yii Application';
 ?>
 
