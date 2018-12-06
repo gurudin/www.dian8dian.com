@@ -1,5 +1,5 @@
 <?php
 return [
-    'imgUrl' => 'http://backend.test',
-    'home'   => 'http://frontend.test',
+    'imgUrl' => 'http://mis.dian8dian.com',
+    'home'   => 'http://www.dian8dian.test',
 ];
