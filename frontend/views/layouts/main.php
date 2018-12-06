@@ -32,7 +32,7 @@ frontend\assets\AppAsset::register($this);
       </a>
     </span>
     <?php else: ?>
-      <form class="form-inline">
+      <div class="form-inline">
         <div class="input-group input-group-sm">
           <?= Html::input('text', 'keywords', '', [
             'class'       => 'form-control border-right-0',
@@ -48,7 +48,7 @@ frontend\assets\AppAsset::register($this);
             </span>
           </div>
         </div>
-      </form>
+      </div>
     <?php endif; ?>
   </nav>
 </header>
