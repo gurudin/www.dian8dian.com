@@ -6,7 +6,7 @@ return [
             'icon'  => 'fas fa-globe',
             'label' => 'Global',
             'href'  => '#',
-            'open'  => true,
+            'open'  => false,
             'child' => [
                 ['label' => 'Sitemap', 'href' => '/index/sitemap'],
             ],

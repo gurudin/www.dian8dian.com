@@ -2,7 +2,15 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = 'My Yii Application';
+$this->title = '组件分享';
+$this->registerMetaTag([
+  'name' => 'description',
+  'content' => 'javascript组件分享。'
+]);
+$this->registerMetaTag([
+  'name' => 'keywords',
+  'keywords' => 'javascript,js,vue,angular,jquery'
+]);
 ?>
 
 <?php $this->beginBlock('jumbotron'); ?>
