@@ -55,6 +55,7 @@ class SpiderController extends Controller
             $m->fk_category_id = $this->spider_id;
             $m->title          = $tag;
             $m->alias          = $pinyin->permalink($tag, '');
+            $m->recommend      = 0;
             $m->save();
         }
     }
