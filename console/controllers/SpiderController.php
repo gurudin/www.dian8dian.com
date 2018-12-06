@@ -48,22 +48,14 @@ class SpiderController extends Controller
     public function actionTags()
     {
         $pinyin = new Pinyin('Overtrue\Pinyin\MemoryFileDictLoader');
-        $list   = Article::find()->select('tags')->all();
+        $tags = ["幻灯片", "图片效果", "表单", "提示工具", "选项卡", "对话框", "文本", "拾色器", "定制和风格", "日期和时间", "拖拽", "输入", "自动完成", "选择框", "上传", "图表", "加载", "视频", "表格", "二维码", "地图", "瀑布流", "音频", "导航", "按钮", "编辑器", "markdown", "分页", "管道函数", "快捷键", "树结构", "存储", "滑块", "社交分享", "蒙板", "PDF", "头像", "手风琴", "文字高亮", "联动", "图标", "按钮效果", "评分", "布局", "动画效果", "工具", "SEO", "图片裁剪", "开关", "查询", "卡片", "滚动条", "网页游戏"];
 
-        foreach ($list as $item) {
-            $arr = explode(",", $item->tags);
-            foreach ($arr as $tag) {
-                if (!empty($tag)) {
-                    $count = Tags::find()->where(['title' => $tag])->count();
-                    if ($count == 0) {
-                        $m = new Tags;
-                        $m->fk_category_id = $this->spider_id;
-                        $m->title          = $tag;
-                        $m->alias          = $pinyin->permalink($tag, '');
-                        $m->save();
-                    }
-                }
-            }
+        foreach ($tags as $key => $tag) {
+            $m = new Tags;
+            $m->fk_category_id = $this->spider_id;
+            $m->title          = $tag;
+            $m->alias          = $pinyin->permalink($tag, '');
+            $m->save();
         }
     }
 

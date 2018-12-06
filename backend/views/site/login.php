@@ -28,7 +28,6 @@ $this->title = 'Login';
                       'autofocus'   => true,
                       'placeholder' => 'Enter your email',
                       'class'       => 'form-control form-control-lg',
-                      'value'       => 'admin'
                     ])?>
                   </div>
 
@@ -36,7 +35,6 @@ $this->title = 'Login';
                     <?=$form->field($model, 'password')->passwordInput([
                       'class'       => 'form-control form-control-lg',
                       'placeholder' => 'Enter your password',
-                      'value'       => 'admin123'
                     ]) ?>
                   </div>
                   
