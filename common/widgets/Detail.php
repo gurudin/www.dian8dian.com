@@ -20,7 +20,7 @@ class Detail extends Widget
      *
      * @var string
      *
-     * @example tags|href
+     * @example tags|href|attribute
      */
     public $mode;
 
@@ -105,7 +105,7 @@ class Detail extends Widget
             'small',
             $left . ' ' . Html::a(
                 $this->item['category']['category'],
-                Url::to(['nav/' . $this->item['category']['alias']], true),
+                Url::toRoute(['nav/index', 'menu' => $this->item['category']['alias']], true),
                 [
                     'title' => $this->item['category']['category'],
                     'alt'   => $this->item['category']['category']
@@ -117,7 +117,14 @@ class Detail extends Widget
         $author = Html::tag(
             'small',
             Html::tag('i', '', ['class' => 'fas fa-user text-muted']) . ' '.
-            Html::a($this->item['author'], 'http://')
+            Html::a(
+                $this->item['author'],
+                Url::toRoute(['nav/search', 'keywords' => 'author-' . $this->item['author']], true),
+                [
+                    'title' => $this->item['author'],
+                    'alt'   => $this->item['author'],
+                ]
+            )
         );
 
         return $category . '&nbsp;&nbsp;' . $author . '&nbsp;&nbsp;';
