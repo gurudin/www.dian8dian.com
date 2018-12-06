@@ -53,27 +53,3 @@ $this->title = 'My Yii Application';
     ]); ?>
   </nav>
 </div>
-
-<?php $this->beginBlock('js'); ?>
-<script>
-$(function() {
-  var search = function () {
-    if ($("input[name='keywords']").val() == '') {
-      return false;
-    } else {
-      window.location.href = "<?=Url::toRoute(['nav/search'], true)?>/" + $("input[name='keywords']").val();
-    }
-  }
-
-  $("button[name='btn-keywords']").click(() =>{
-    search();
-  });
-  $("input[name='keywords']").keyup(event =>{
-    if (event.which == 13) {
-      search();
-    }
-  });
-  
-});
-</script>
-<?php $this->endBlock(); ?>

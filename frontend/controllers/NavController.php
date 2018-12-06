@@ -89,22 +89,32 @@ class NavController extends BaseController
                 40,
                 'weight,id DESC'
             );
-
-            print_r($result);
         } else {
             // Keyword
-            $where = [];
+            $search_key = $keywords;
+
+            $where   = [];
             $where[] = ['status' => 1];
             $where[] = [
                 'or',
-                ['like', 'title', $keywords],
-                ['like', 'title_search', $keywords],
-                ['like', 'remark', $keywords],
-                ['like', 'content', $keywords]
+                ['like', 'title', $search_key],
+                ['like', 'title_search', $search_key],
+                ['like', 'remark', $search_key],
+                ['like', 'content', $search_key]
             ];
             $result = Article::getAll($where, $fields, 40, 'weight,id DESC');
         }
 
-        return $this->render('search', ['list' => $result['list'], 'page' => $result['page']]);
+        foreach ($result['list'] as $key => $item) {
+            if ($item['tags'] != '') {
+                $item['tags'] = explode(",", $item['tags']);
+            }
+        }
+
+        return $this->render('search', [
+            'list'     => $result['list'],
+            'page'     => $result['page'],
+            'keywords' => $search_key,
+        ]);
     }
 }

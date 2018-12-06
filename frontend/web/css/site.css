@@ -28,3 +28,6 @@ header .navbar {
   border: 1px solid #6c757d!important;
   box-shadow: 0 .5rem 1rem #6c757d!important;
 }
+.search-card {
+  height: 430px;
+}
