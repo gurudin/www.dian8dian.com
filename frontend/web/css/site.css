@@ -30,4 +30,5 @@ header .navbar {
 }
 .search-card {
   height: 430px;
+  overflow: hidden;
 }
