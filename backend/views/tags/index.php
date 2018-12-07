@@ -210,7 +210,7 @@ const vm = new Vue({
       var $btn = $(event.currentTarget).loading('<i class="fas fa-spinner fa-spin"></i>');
       $.post(this.init.href.save, this.init.m, function (response) {
         if (response.status) {
-          $("#saveModal").modal('hide');
+          window.location.reload();
         } else {
           $.alert({message: response.msg});
         }

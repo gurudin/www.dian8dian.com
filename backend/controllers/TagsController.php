@@ -47,6 +47,7 @@ class TagsController extends BaseController
             $m->fk_category_id = $this->args['fk_category_id'];
             $m->title          = $this->args['title'];
             $m->alias          = $pinyin->permalink($this->args['title'], '');
+            $m->recommend      = 0;
 
             $result = $m->save();
         } else {
@@ -55,6 +56,7 @@ class TagsController extends BaseController
                 'fk_category_id' => $this->args['fk_category_id'],
                 'title'          => $this->args['title'],
                 'alias'          => $pinyin->permalink($this->args['title'], ''),
+                'recommend'      => 0,
             ], [
                 'id' => $this->args['id']
             ]);
