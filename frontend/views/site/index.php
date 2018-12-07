@@ -18,7 +18,7 @@ $this->registerMetaTag([
   <div class="container">
     <h3 class="display-4">搜索组件</h3>
 
-    <div class="input-group m-auto" style="width:600px;">
+    <div class="input-group m-auto" style="width:70%;">
         <?=Html::input('text', 'keywords', '', [
           'class' => 'form-control form-control-lg border-right-0',
           'placeholder' => 'Search components...',
@@ -36,7 +36,7 @@ $this->registerMetaTag([
 
     <div class="mb-1"></div>
     
-    <p class="m-auto text-left" style="width:600px;">
+    <p class="m-auto text-left" style="width:70%;">
       <small><?=common\widgets\Tags::widget(['item' => $tags, 'mode' => 'search'])?></small>
     </p>
     

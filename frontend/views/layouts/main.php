@@ -14,14 +14,17 @@ frontend\assets\AppAsset::register($this);
       <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body style="overflow-x: hidden;">
 <?php $this->beginBody() ?>
 
 <header class="w-100" style="background-color: #396fe0; border-bottom: 1px solid #2e51f5;">
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #396fe0;">
     <a class="navbar-brand" href="/"><img src="/images/logo.png" width="27"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
         <?=common\widgets\Menu::widget(['item' => Yii::$app->menu->nav])?>
     </div>
     
@@ -42,7 +45,7 @@ frontend\assets\AppAsset::register($this);
           <div class="input-group-append">
             <span class="input-group-text bg-white">
               <?=Html::button('<i class="fas fa-search"></i>', [
-                'style' => 'border: none;',
+                'style' => 'border: none; background: white;',
                 'name'  => 'btn-keywords'
               ])?>
             </span>
