@@ -94,4 +94,53 @@ class SiteController extends BaseController
             'data' => $maps,
         ]);
     }
+
+    /**
+     * Google sitemap.
+     *
+     * @return xml
+     */
+    public function actionGoogleSitemap()
+    {
+        $lastmod = date('Y-m-d');
+        $maps = [];
+
+        // Home
+        $maps[] =[
+            'loc'        => Yii::$app->request->hostInfo,
+            'lastmod'    => $lastmod,
+        ];
+
+        // Category
+        $category_item = Category::getAll(['enabled' => 1]);
+        foreach ($category_item as $key => $category) {
+            $maps[] = [
+                'loc'        => Url::to(["nav/{$category->alias}"], true),
+                'lastmod'    => $lastmod,
+            ];
+        }
+
+        // Article
+        $article_item = Article::getAll([['status' => 1]], ['id', 'title'], 500);
+        foreach ($article_item['list'] as $key => $article) {
+            $maps[] = [
+                'loc'        =>  Url::to(["article/{$article->id}"], true),
+                'lastmod'    => $lastmod,
+            ];
+        }
+
+
+        return \Yii::createObject([
+            'class' => 'yii\web\Response',
+            'format' => \yii\web\Response::FORMAT_XML,
+            'formatters' => [
+                \yii\web\Response::FORMAT_XML => [
+                    'class' => 'yii\web\XmlResponseFormatter',
+                    'rootTag' => 'urlset',
+                    'itemTag' => 'url',
+                ],
+            ],
+            'data' => $maps,
+        ]);
+    }
 }

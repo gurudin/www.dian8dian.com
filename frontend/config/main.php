@@ -46,8 +46,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/nav/<menu>' => 'nav/index',
+                '/nav/<menu>'  => 'nav/index',
                 '/sitemap.xml' => 'site/sitemap',
+                '/google-sitemap.xml' => 'site/google-sitemap',
                 [
                     'route'    => 'nav/search',
                     'pattern'  => '/search/<keywords>',
